@@ -1,4 +1,39 @@
 {
-  "name": "jellogy",
-  "version": "0.0.1"
+  "name": "Stone",
+  "version": "0.0.1",
+  "dependencies": {
+    "@types/chai": "^4.0.10",
+    "@types/lodash": "^4.14.88",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.0.57",
+    "ansi-styles": "^3.2.0",
+    "bluebird": "^3.5.1",
+    "chai": "^3.3.0",
+    "cli-color": "^1.2.0",
+    "harmony-proxy": "0.0.2",
+    "lodash": "^4.17.4",
+    "mocha": "^2.3.3",
+    "pre-commit": "^1.2.2",
+    "typescript": "^2.6.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-spawn-mocha": "^2.2.1",
+    "gulp-typescript": "^3.2.3",
+    "gulp-watch": "^4.3.5",
+    "nodemon": "^1.12.5",
+    "tslint": "^5.8.0"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "gulp": "gulp",
+    "tslint": "tslint --project tsconfig.json",
+    "test": "gulp build && jest",
+    "tslintfix": "npm run tslint -- --fix",
+    "nmt": "nodemon -x npm -- test -- --bail"
+  },
+  "pre-commit": [
+    "tslint"
+  ]
 }
