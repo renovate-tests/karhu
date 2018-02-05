@@ -4,7 +4,7 @@ import {Color} from 'ansi-styles'
 type Context = string
 type LogLevel = string
 
-export interface JellogyConfig {
+export interface KarhuConfig {
   logLevels: string[]
   colors: {
     [logLevel: string]: Color | Color[]
@@ -31,21 +31,21 @@ export interface DefaultLogImpl {
   debug: LogFunction
 }
 
-let defaultConfig: JellogyConfig | undefined
+let defaultConfig: KarhuConfig | undefined
 
 if (!defaultConfig) defaultConfig = loadConfig()
 
-function loadConfig(newConfig: JellogyConfig | null = null): JellogyConfig {
+function loadConfig(newConfig: KarhuConfig | null = null): KarhuConfig {
   return newConfig || defaultConfigImpl
 }
 
-export function configure(config: null | JellogyConfig) {
+export function configure(config: null | KarhuConfig) {
   defaultConfig = loadConfig(config)
 }
 
 export const context = (activeContext: Context) => usingConfig(() => required(defaultConfig)).context(activeContext)
 
-export function usingConfig<LogImpl = DefaultLogImpl>(configSource: JellogyConfig | (() => JellogyConfig)) {
+export function usingConfig<LogImpl = DefaultLogImpl>(configSource: KarhuConfig | (() => KarhuConfig)) {
   const config = typeof configSource === 'function' ? configSource() : configSource
 
   return {
@@ -62,7 +62,7 @@ export function usingConfig<LogImpl = DefaultLogImpl>(configSource: JellogyConfi
   }
 }
 
-function logEvent(config: JellogyConfig, activeContext: string, logLevel: string, toLog: any[]) {
+function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, toLog: any[]) {
 
   if (config.logLevels.indexOf(logLevel) >= config.logLevels.indexOf(getLogLevel(config, activeContext))) return
   const color = config.colors[logLevel] || config.colors.default || noColor
@@ -76,11 +76,11 @@ function logEvent(config: JellogyConfig, activeContext: string, logLevel: string
   }
 }
 
-function getLogLevel(config: JellogyConfig, activeContext: Context) {
+function getLogLevel(config: KarhuConfig, activeContext: Context) {
   return getOverrideLogLevel(config, activeContext) || config.contextSpecificLogLevels[activeContext] || config.defaultLogLevel
 }
 
-function getOverrideLogLevel(config: JellogyConfig, activeContext: Context) {
+function getOverrideLogLevel(config: KarhuConfig, activeContext: Context) {
   return process.env[config.envVariable + '_' + toEnv(activeContext)] || process.env[config.envVariable]
 }
 

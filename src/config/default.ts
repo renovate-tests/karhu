@@ -1,5 +1,5 @@
 import {styles} from 'ansi-styles'
-import {JellogyConfig} from '../main/jellogy'
+import {KarhuConfig} from '../main/karhu'
 export const logLevels = [
   'NONE', // Not to be used for messages, but allows setting log level to NONE,
   'DEBUG',
@@ -19,13 +19,13 @@ function formatBefore(logLevel: string, context: string, color: string) {
   return `[${new Date().toISOString()}] ${color}${logLevel} ${context}`
 }
 
-const config: JellogyConfig = {
+const config: KarhuConfig = {
   logLevels,
   colors,
   formatBefore,
   contextSpecificLogLevels: {},
   defaultLogLevel: 'INFO',
-  envVariable: 'JELLOGY_LOG_LEVEL'
+  envVariable: 'KARHU_LOG_LEVEL'
 }
 
 export default config
