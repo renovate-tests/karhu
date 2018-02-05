@@ -13,10 +13,10 @@ gulp.task('clean-build', function () {
 
 gulp.task('clean', ['clean-build'])
 
-gulp.task('build', function () {
+gulp.task('ts', function () {
   return tsProject.src()
     .pipe(tsProject())
-    .pipe(gulp.dest('build'))
+    .pipe(gulp.dest(target))
 })
 
 gulp.task('build', ['ts'])
