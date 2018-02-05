@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`log-levels-test is able to use custom log levels 1`] = `
+Map {
+  "ALPHA" => Array [
+    Array [
+      "0 ALPHA test-context",
+      "Hello, world!",
+    ],
+  ],
+}
+`;

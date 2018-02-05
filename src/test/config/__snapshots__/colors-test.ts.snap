@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`log-levels-test no default is able to use custom log levels 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "0 INFO test-context",
+      "No color",
+    ],
+  ],
+  "WARN" => Array [
+    Array [
+      "1 WARN test-context[95m",
+      "Single color",
+      "[39m",
+    ],
+  ],
+  "ERROR" => Array [
+    Array [
+      "2 ERROR test-context[94m[101m",
+      "Multiple colors",
+      "[49m[39m",
+    ],
+  ],
+}
+`;

@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default-log-levels-test logs things 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [
+    Array [
+      "0 DEBUG test-context[95m",
+      "dbg",
+      "[39m",
+    ],
+  ],
+  "INFO" => Array [
+    Array [
+      "1 INFO test-context",
+      "inf",
+    ],
+  ],
+  "WARN" => Array [
+    Array [
+      "2 WARN test-context[93m",
+      "wrn",
+      "[39m",
+    ],
+  ],
+  "ERROR" => Array [
+    Array [
+      "3 ERROR test-context[97m[101m",
+      "err",
+      "[49m[39m",
+    ],
+  ],
+}
+`;

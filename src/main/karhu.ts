@@ -32,9 +32,13 @@ export type LogFunction = (...toLog: any[]) => void
 
 export interface KarhuLogger {
   error: LogFunction
+  ERROR: LogFunction
   warn: LogFunction
+  WARN: LogFunction
   info: LogFunction
+  INFO: LogFunction
   debug: LogFunction
+  DEBUG: LogFunction
 }
 
 let defaultConfig: KarhuConfig | undefined
@@ -65,7 +69,11 @@ export function usingConfig<LogImpl = KarhuLogger>(configSource: KarhuConfig | (
   function forContext(activeContext: string) {
     const impl: any = {}
     for (const type of config.logLevels) {
-      impl[type.toLowerCase()] = (...toLog: any[]) => logEvent(config, activeContext, type, toLog)
+      impl[type] = (...toLog: any[]) => logEvent(config, activeContext, type, toLog)
+      const typeLower = type.toLowerCase()
+      if (!impl[typeLower]) {
+        impl[typeLower] = (...toLog: any[]) => logEvent(config, activeContext, type, toLog)
+      }
     }
 
     return impl as LogImpl
@@ -84,8 +92,9 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
     mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog)),
     outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
 
-  if (process.stdout.isTTY && before.includes(openColor)) {
-    const closeColor = asArray(color).reverse().map(c => c.close).join('')
+  const closeColor = asArray(color).reverse().map(c => c.close).join('')
+
+  if (isColorEnabled(config) && before.includes(openColor) && closeColor) {
     outputImpl(before, ...mappedValues, closeColor)
   } else {
     outputImpl(before, ...mappedValues)
@@ -113,4 +122,11 @@ function required<T>(val: T | undefined): T {
 function asArray<T>(inVal: T | T[]): T[] {
   if (inVal instanceof Array) return inVal
   return [inVal]
+}
+
+function isColorEnabled(config: KarhuConfig) {
+  const override = process.env[config.envVariablePrefix + '_COLOR']
+  if (override === '0' || override === 'false') return false
+  if (override === '1' || override === 'true') return true
+  return process.stdout.isTTY
 }

@@ -1,5 +1,6 @@
 import {color as ansiColor, bgColor} from 'ansi-styles'
 import {KarhuConfig} from '../main/karhu'
+
 export const logLevels = [
   'NONE', // Not to be used for messages, but allows setting log level to NONE,
   'DEBUG',
@@ -9,7 +10,7 @@ export const logLevels = [
 ]
 
 export const colors = {
-  DEBUG: ansiColor.purpleBright,
+  DEBUG: ansiColor.magentaBright,
   WARN: ansiColor.yellowBright,
   ERROR: [ansiColor.whiteBright, bgColor.bgRedBright],
   NOTICE: ansiColor.blueBright

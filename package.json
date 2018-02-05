@@ -53,6 +53,9 @@
     "moduleFileExtensions": [
       "ts",
       "js"
+    ],
+    "setupFiles": [
+      "<rootDir>/src/test/test-setup.ts"
     ]
   }
 }

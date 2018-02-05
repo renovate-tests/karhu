@@ -5,7 +5,7 @@ declare module 'ansi-styles' {
   }
 
   export const color: {
-    purpleBright: Color,
+    magentaBright: Color,
     whiteBright: Color
     yellowBright: Color
     redBright: Color
@@ -13,7 +13,7 @@ declare module 'ansi-styles' {
   }
 
   export const bgColor: {
-    bgPurpleBright: Color,
+    bgmagentaBright: Color,
     bgWhiteBright: Color
     bgYellowBright: Color
     bgRedBright: Color

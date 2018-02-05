@@ -14,7 +14,7 @@ logs of the entire code base just to find the thing you are interested in.
 
 Let's start with a simple example
 
-    const log = require('karhu').context(__filename)
+    const log = require('karhu').context('app')
     // ...
     log.info('Server startup complete')
     log.error(new Error('Startup failed'))
@@ -47,19 +47,6 @@ Every karhu logger has context. This allows for making events from different sou
 different. The context is a string; you can specify whatever you want.
  
     const log = karhu.context('mymodulename')
- 
-If the context is a filename, then common prefix of karhu installation and the filename is 
-automatically omitted along with the file extension. So if you have the following directory structure:
-
-    /home/me/app/
-        package.json
-        src/
-            app.js
-        node_modules/
-            karhu
-
-And `app.js` creates a logger using `const log = karhu.context(__filename)`, the context
-actually becomes `src/app`.
 
 ### Logging
 
