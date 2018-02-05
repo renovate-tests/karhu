@@ -16,5 +16,6 @@ declare module 'ansi-styles' {
     color: Colors
     bgColor: Colors
   }
-  export const styles: Styles
+  export const color: Colors
+  export const bgColor: Colors
 }

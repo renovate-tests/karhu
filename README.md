@@ -105,6 +105,8 @@ for example.
         NOTICE: styles.color.blueBright
     }
 
+You can also specify color for `default`, which is used if no other color matches.
+
 #### formatBefore
 
 Logged events can be prefixed by whatever you want. The default prefix includes the moment of the event in UTC time,
@@ -150,6 +152,19 @@ along with other relevant information and it is expected to return whatever is t
         if (value === undefined) return '(undefined)'
         return value    
     } 
+
+#### outputImpl
+
+This is an object, that allows you to change the actual means of generating the output.
+
+The default implementation calls `console.error` for errors, `console.warn` for warning and
+`console.log` for everything else.
+
+    const outputImpl = {
+        ERROR: (...toLog) => console.error(...toLog),
+        WARN: (...toLog) => console.warn(...toLog), 
+        default: (...toLog) => console.log(...toLog)
+    }
 
 ### Run-time configuration
 

@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "dependencies": {
     "@types/chai": "^4.0.10",
+    "@types/jest": "^22.1.1",
     "@types/lodash": "^4.14.88",
-    "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.57",
     "ansi-styles": "^3.2.0",
     "bluebird": "^3.5.1",
@@ -22,6 +22,7 @@
     "gulp-spawn-mocha": "^2.2.1",
     "gulp-typescript": "^3.2.3",
     "gulp-watch": "^4.3.5",
+    "jest": "^22.1.4",
     "nodemon": "^1.12.5",
     "npm-release": "^1.0.0",
     "tslint": "^5.8.0"
@@ -37,5 +38,13 @@
   },
   "pre-commit": [
     "tslint"
-  ]
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "/lib/main/**/*.js"
+    ],
+    "testMatch": [
+      "**/*-test.js"
+    ]
+  }
 }

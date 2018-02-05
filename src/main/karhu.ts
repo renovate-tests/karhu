@@ -4,6 +4,10 @@ import {Color} from 'ansi-styles'
 type Context = string
 type LogLevel = string
 
+export interface KarhuOutputImpl {
+  [logLevel: string]: (...toLog: any[]) => void
+}
+
 export interface KarhuConfig {
   logLevels: string[]
   colors: {
@@ -15,7 +19,8 @@ export interface KarhuConfig {
   }
   defaultLogLevel: LogLevel
   envVariablePrefix: string,
-  outputMapper: (value: any, logLevel: string, context: string, toLog: any[]) => any
+  outputMapper: (value: any, logLevel: string, context: string, toLog: any[]) => any,
+  outputImpl: KarhuOutputImpl
 }
 
 const noColor = {
@@ -25,7 +30,7 @@ const noColor = {
 
 export type LogFunction = (...toLog: any[]) => void
 
-export interface DefaultLogImpl {
+export interface KarhuLogger {
   error: LogFunction
   warn: LogFunction
   info: LogFunction
@@ -44,9 +49,13 @@ export function configure(config: null | KarhuConfig) {
   defaultConfig = loadConfig(config)
 }
 
+export interface Karhu<LogImpl> {
+  context: (context: string) => LogImpl
+}
+
 export const context = (activeContext: Context) => usingConfig(() => required(defaultConfig)).context(activeContext)
 
-export function usingConfig<LogImpl = DefaultLogImpl>(configSource: KarhuConfig | (() => KarhuConfig)) {
+export function usingConfig<LogImpl = KarhuLogger>(configSource: KarhuConfig | (() => KarhuConfig)): Karhu<LogImpl> {
   const config = typeof configSource === 'function' ? configSource() : configSource
 
   return {
@@ -70,11 +79,12 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
   const openColor = asArray(color).map(c => c.open).join('')
   const before = config.formatBefore(logLevel, activeContext, openColor, toLog)
   const mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog))
+  const outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
   if (process.stdout.isTTY && before.includes(openColor)) {
     const closeColor = asArray(color).reverse().map(c => c.close).join('')
-    console.log(before, ...mappedValues, closeColor) /* tslint:disable-line:no-console */
+    outputImpl(before, ...mappedValues, closeColor)
   } else {
-    console.log(before, ...mappedValues) /* tslint:disable-line:no-console */
+    outputImpl(before, ...mappedValues)
   }
 }
 
