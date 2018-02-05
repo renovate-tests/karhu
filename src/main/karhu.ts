@@ -73,13 +73,17 @@ export function usingConfig<LogImpl = KarhuLogger>(configSource: KarhuConfig | (
 }
 
 function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, toLog: any[]) {
+  const eventLogPrio = config.logLevels.indexOf(logLevel),
+    activeLogLevelPrio = config.logLevels.indexOf(getLogLevel(config, activeContext))
 
-  if (config.logLevels.indexOf(logLevel) >= config.logLevels.indexOf(getLogLevel(config, activeContext))) return
-  const color = config.colors[logLevel] || config.colors.default || noColor
-  const openColor = asArray(color).map(c => c.open).join('')
-  const before = config.formatBefore(logLevel, activeContext, openColor, toLog)
-  const mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog))
-  const outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
+  if (eventLogPrio < activeLogLevelPrio) return
+
+  const color = config.colors[logLevel] || config.colors.default || noColor,
+    openColor = asArray(color).map(c => c.open).join(''),
+    before = config.formatBefore(logLevel, activeContext, openColor, toLog),
+    mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog)),
+    outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
+
   if (process.stdout.isTTY && before.includes(openColor)) {
     const closeColor = asArray(color).reverse().map(c => c.close).join('')
     outputImpl(before, ...mappedValues, closeColor)

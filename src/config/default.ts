@@ -11,7 +11,7 @@ export const logLevels = [
 export const colors = {
   DEBUG: ansiColor.purpleBright,
   WARN: ansiColor.yellowBright,
-  ERROR: [ansiColor.whiteBright, bgColor.redBright],
+  ERROR: [ansiColor.whiteBright, bgColor.bgRedBright],
   NOTICE: ansiColor.blueBright
 }
 

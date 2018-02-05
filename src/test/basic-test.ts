@@ -4,7 +4,7 @@ describe('basic-test', () => {
   const karhuTest = prepareTestKarhu({})
 
   it('logs things', karhuTest((karhu, output) => {
-    karhu.context('test-context').info('Hello, world!')
+    karhu.context('test-context').error('Hello, world!')
     expect(output.tracked).toMatchSnapshot()
   }))
 })

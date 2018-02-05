@@ -10,7 +10,9 @@ class TestOutputTracker {
     for (const logType of config.logLevels) {
       this.tracked.set(logType, [])
       trackerAsAny[logType] = (...args: any[]) => {
-        trackerAsAny[logType].push(args)
+        const tracked = this.tracked.get(logType)
+        if (!tracked) throw new Error('Internal error')
+        tracked.push(args)
       }
     }
   }
@@ -19,8 +21,14 @@ class TestOutputTracker {
 export function prepareTestKarhu<LoggerType = KarhuLogger>(partialConfig: Partial<KarhuConfig>) {
   return (testImpl: (karhu: Karhu<LoggerType>, output: TestOutputTracker) => (void | Promise<void>)) =>
     () => {
+      let index = 0
       const output = new TestOutputTracker()
-      const config: KarhuConfig = {...defaultConfig, outputImpl: output.tracker, ...partialConfig}
+      const config: KarhuConfig = {
+        ...defaultConfig,
+        outputImpl: output.tracker,
+        formatBefore: (logLevel, context, colorStart, toLog) => `${index++} ${logLevel} ${context}${colorStart}`,
+        ...partialConfig
+      }
       output.setup(config)
       const karhu = usingConfig<LoggerType>(config)
       return testImpl(karhu, output)

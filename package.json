@@ -25,13 +25,14 @@
     "jest": "^22.1.4",
     "nodemon": "^1.12.5",
     "npm-release": "^1.0.0",
+    "ts-jest": "^22.0.3",
     "tslint": "^5.8.0"
   },
   "scripts": {
     "build": "gulp build",
     "gulp": "gulp",
     "tslint": "tslint --project tsconfig.json",
-    "test": "gulp build && jest",
+    "test": "jest",
     "tslintfix": "npm run tslint -- --fix",
     "nmt": "nodemon -x npm -- test -- --bail",
     "release": "npm test && npm-release"
@@ -41,10 +42,17 @@
   ],
   "jest": {
     "collectCoverageFrom": [
-      "/lib/main/**/*.js"
+      "/src/main/**/*.js"
     ],
     "testMatch": [
-      "**/*-test.js"
+      "**/*-test.ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js"
     ]
   }
 }

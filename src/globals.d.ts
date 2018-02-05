@@ -4,7 +4,7 @@ declare module 'ansi-styles' {
     close: string
   }
 
-  export interface Colors {
+  export const color: {
     purpleBright: Color,
     whiteBright: Color
     yellowBright: Color
@@ -12,10 +12,11 @@ declare module 'ansi-styles' {
     blueBright: Color
   }
 
-  interface Styles {
-    color: Colors
-    bgColor: Colors
+  export const bgColor: {
+    bgPurpleBright: Color,
+    bgWhiteBright: Color
+    bgYellowBright: Color
+    bgRedBright: Color
+    bgBlueBright: Color
   }
-  export const color: Colors
-  export const bgColor: Colors
 }
