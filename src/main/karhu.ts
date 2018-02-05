@@ -9,12 +9,13 @@ export interface KarhuConfig {
   colors: {
     [logLevel: string]: Color | Color[]
   }
-  formatBefore: (logLevel: string, context: string, colorANSI: string) => string,
+  formatBefore: (logLevel: string, context: string, colorANSI: string, toLog: any[]) => string,
   contextSpecificLogLevels: {
     [context: string]: LogLevel
   }
   defaultLogLevel: LogLevel
-  envVariable: string
+  envVariablePrefix: string,
+  outputMapper: (value: any, logLevel: string, context: string, toLog: any[]) => any
 }
 
 const noColor = {
@@ -67,21 +68,23 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
   if (config.logLevels.indexOf(logLevel) >= config.logLevels.indexOf(getLogLevel(config, activeContext))) return
   const color = config.colors[logLevel] || config.colors.default || noColor
   const openColor = asArray(color).map(c => c.open).join('')
-  const before = config.formatBefore(logLevel, activeContext, openColor)
-  if (process.stdout.isTTY) {
+  const before = config.formatBefore(logLevel, activeContext, openColor, toLog)
+  const mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog))
+  if (process.stdout.isTTY && before.includes(openColor)) {
     const closeColor = asArray(color).reverse().map(c => c.close).join('')
-    console.log(before, ...toLog, closeColor) /* tslint:disable-line:no-console */
+    console.log(before, ...mappedValues, closeColor) /* tslint:disable-line:no-console */
   } else {
-    console.log(before, ...toLog) /* tslint:disable-line:no-console */
+    console.log(before, ...mappedValues) /* tslint:disable-line:no-console */
   }
 }
 
 function getLogLevel(config: KarhuConfig, activeContext: Context) {
-  return getOverrideLogLevel(config, activeContext) || config.contextSpecificLogLevels[activeContext] || config.defaultLogLevel
+  return getOverrideLogLevel(config, activeContext) || config.contextSpecificLogLevels[activeContext] || getOverrideLogLevel(config, null) || config.defaultLogLevel
 }
 
-function getOverrideLogLevel(config: KarhuConfig, activeContext: Context) {
-  return process.env[config.envVariable + '_' + toEnv(activeContext)] || process.env[config.envVariable]
+function getOverrideLogLevel(config: KarhuConfig, activeContext: Context | null) {
+  const prefix = config.envVariablePrefix + '_LOG_LEVEL'
+  return process.env[!activeContext ? prefix : prefix + '_' + toEnv(activeContext)]
 }
 
 function toEnv(activeContext: Context) {

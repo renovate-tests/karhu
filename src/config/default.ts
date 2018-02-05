@@ -25,7 +25,8 @@ const config: KarhuConfig = {
   formatBefore,
   contextSpecificLogLevels: {},
   defaultLogLevel: 'INFO',
-  envVariable: 'KARHU_LOG_LEVEL'
+  envVariablePrefix: 'KARHU',
+  outputMapper: value => value
 }
 
 export default config
