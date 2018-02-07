@@ -7,9 +7,9 @@ Map {
   "INFO" => Array [],
   "WARN" => Array [
     Array [
-      "0 WARN ctx[93m",
-      "Should show up",
-      "[39m",
+      "[1] [93mWARN ctx Should show up[39m",
+      "WARN",
+      "ctx",
     ],
   ],
   "ERROR" => Array [],
@@ -23,9 +23,9 @@ Map {
   "INFO" => Array [],
   "WARN" => Array [
     Array [
-      "0 WARN a+-/b    c[93m",
-      "Should show up",
-      "[39m",
+      "[1] [93mWARN a+-/b    c Should show up[39m",
+      "WARN",
+      "a+-/b    c",
     ],
   ],
   "ERROR" => Array [],

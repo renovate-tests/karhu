@@ -8,13 +8,14 @@ Map {
   "WARN" => Array [],
   "ERROR" => Array [
     Array [
-      "0 ERROR ctx[97m[101m",
-      "should have color",
-      "[49m[39m",
+      "[1] [97m[101mERROR ctx should have color[49m[39m",
+      "ERROR",
+      "ctx",
     ],
     Array [
-      "1 ERROR ctx",
-      "should not have color",
+      "[2] ERROR ctx should not have color",
+      "ERROR",
+      "ctx",
     ],
   ],
 }
@@ -25,9 +26,9 @@ Map {
   "NONE" => Array [],
   "DEBUG" => Array [
     Array [
-      "0 DEBUG highprio[95m",
-      "should show up",
-      "[39m",
+      "[1] [95mDEBUG highprio should show up[39m",
+      "DEBUG",
+      "highprio",
     ],
   ],
   "INFO" => Array [],
@@ -43,9 +44,9 @@ Map {
   "INFO" => Array [],
   "WARN" => Array [
     Array [
-      "0 WARN ctx[93m",
-      "should show up",
-      "[39m",
+      "[1] [93mWARN ctx should show up[39m",
+      "WARN",
+      "ctx",
     ],
   ],
   "ERROR" => Array [],

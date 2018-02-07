@@ -8,13 +8,14 @@ Map {
   "WARN" => Array [],
   "ERROR" => Array [
     Array [
-      "0 ERROR test-context[97m[101m",
-      "Should have colors",
-      "[49m[39m",
+      "[1] [97m[101mERROR test-context Should have colors[49m[39m",
+      "ERROR",
+      "test-context",
     ],
     Array [
-      "1 ERROR test-context",
-      "Should not have colors",
+      "[2] ERROR test-context Should not have colors",
+      "ERROR",
+      "test-context",
     ],
   ],
 }

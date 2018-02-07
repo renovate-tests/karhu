@@ -26,7 +26,7 @@ export function prepareTestKarhu<LoggerType = KarhuLogger>(partialConfig: Partia
       const config: KarhuConfig = {
         ...defaultConfig,
         outputImpl: output.tracker,
-        formatBefore: (logLevel, context, colorStart, toLog) => `${index++} ${logLevel} ${context}${colorStart}`,
+        formatNow: () => ++index,
         ...partialConfig
       }
       output.setup(config)

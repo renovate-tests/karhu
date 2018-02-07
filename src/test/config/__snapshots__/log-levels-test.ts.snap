@@ -4,8 +4,9 @@ exports[`log-levels-test is able to use custom log levels 1`] = `
 Map {
   "ALPHA" => Array [
     Array [
-      "0 ALPHA test-context",
-      "Hello, world!",
+      "[1] ALPHA test-context Hello, world!",
+      "ALPHA",
+      "test-context",
     ],
   ],
 }

@@ -8,9 +8,9 @@ Map {
   "WARN" => Array [],
   "ERROR" => Array [
     Array [
-      "0 ERROR test-context[97m[101m",
-      "Hello, world!",
-      "[49m[39m",
+      "[1] [97m[101mERROR test-context Hello, world![49m[39m",
+      "ERROR",
+      "test-context",
     ],
   ],
 }

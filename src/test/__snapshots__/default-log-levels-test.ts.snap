@@ -5,29 +5,30 @@ Map {
   "NONE" => Array [],
   "DEBUG" => Array [
     Array [
-      "0 DEBUG test-context[95m",
-      "dbg",
-      "[39m",
+      "[1] [95mDEBUG test-context dbg[39m",
+      "DEBUG",
+      "test-context",
     ],
   ],
   "INFO" => Array [
     Array [
-      "1 INFO test-context",
-      "inf",
+      "[2] INFO test-context inf",
+      "INFO",
+      "test-context",
     ],
   ],
   "WARN" => Array [
     Array [
-      "2 WARN test-context[93m",
-      "wrn",
-      "[39m",
+      "[3] [93mWARN test-context wrn[39m",
+      "WARN",
+      "test-context",
     ],
   ],
   "ERROR" => Array [
     Array [
-      "3 ERROR test-context[97m[101m",
-      "err",
-      "[49m[39m",
+      "[4] [97m[101mERROR test-context err[49m[39m",
+      "ERROR",
+      "test-context",
     ],
   ],
 }

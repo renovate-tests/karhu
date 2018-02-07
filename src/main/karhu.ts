@@ -5,7 +5,7 @@ type Context = string
 type LogLevel = string
 
 export interface KarhuOutputImpl {
-  [logLevel: string]: (...toLog: any[]) => void
+  [logLevel: string]: (toLog: any, logLevel: string, context: string) => void
 }
 
 export interface KarhuConfig {
@@ -13,14 +13,18 @@ export interface KarhuConfig {
   colors: {
     [logLevel: string]: Color | Color[]
   }
-  formatBefore: (logLevel: string, context: string, colorANSI: string, toLog: any[]) => string,
+  outputFormat: string
+  formatters: {
+    [outputFormat: string]: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string) => any,
+  }
   contextSpecificLogLevels: {
     [context: string]: LogLevel
   }
   defaultLogLevel: LogLevel
   envVariablePrefix: string,
   outputMapper: (value: any, logLevel: string, context: string, toLog: any[]) => any,
-  outputImpl: KarhuOutputImpl
+  outputImpl: KarhuOutputImpl,
+  formatNow: (config: KarhuConfig) => string | number
 }
 
 const noColor = {
@@ -46,7 +50,9 @@ let defaultConfig: KarhuConfig | undefined
 if (!defaultConfig) defaultConfig = loadConfig()
 
 function loadConfig(newConfig: KarhuConfig | null = null): KarhuConfig {
-  return newConfig || defaultConfigImpl
+  const config = newConfig || defaultConfigImpl
+  if (!config.formatters[config.outputFormat]) throw new Error('There is no formatter for chosen output format')
+  return config
 }
 
 export function configure(config: null | KarhuConfig) {
@@ -86,20 +92,16 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
 
   if (eventLogPrio < activeLogLevelPrio) return
 
-  const color = config.colors[logLevel] || config.colors.default || noColor,
-    colorEnabled = isColorEnabled(config),
+  const
+      colorEnabled = isColorEnabled(config),
+    color = colorEnabled ? config.colors[logLevel] || config.colors.default || noColor : noColor,
     openColor = asArray(color).map(c => c.open).join(''),
-    before = config.formatBefore(logLevel, activeContext, colorEnabled ? openColor : '', toLog),
+    closeColor = asArray(color).reverse().map(c => c.close).join(''),
     mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog)),
     outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
 
-  const closeColor = asArray(color).reverse().map(c => c.close).join('')
-
-  if (colorEnabled && before.includes(openColor) && closeColor) {
-    outputImpl(before, ...mappedValues, closeColor)
-  } else {
-    outputImpl(before, ...mappedValues)
-  }
+  const formatted = config.formatters[config.outputFormat](mappedValues, logLevel, activeContext, config, openColor, closeColor)
+  outputImpl(formatted, logLevel, activeContext)
 }
 
 function getLogLevel(config: KarhuConfig, activeContext: Context) {

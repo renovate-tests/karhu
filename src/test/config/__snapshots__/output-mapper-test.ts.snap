@@ -51,14 +51,9 @@ Map {
   "WARN" => Array [],
   "ERROR" => Array [
     Array [
-      "0 ERROR ctx[101m[97m",
-      2,
-      4,
-      6,
-      8,
-      10,
-      12,
-      "[39m[49m",
+      "[1] [101m[97mERROR ctx 2 4 6 8 10 12[39m[49m",
+      "ERROR",
+      "ctx",
     ],
   ],
 }
@@ -72,9 +67,9 @@ Map {
   "WARN" => Array [],
   "ERROR" => Array [
     Array [
-      "0 ERROR ctx[97m[101m",
-      10000,
-      "[49m[39m",
+      "[1] [97m[101mERROR ctx 10000[49m[39m",
+      "ERROR",
+      "ctx",
     ],
   ],
 }

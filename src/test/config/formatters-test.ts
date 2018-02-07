@@ -1,13 +1,17 @@
 import {prepareTestKarhu} from '../test-utils'
+import {KarhuConfig} from '../../main/karhu'
 
 describe('format-before-test', () => {
 
   describe('functionality', () => {
 
     const karhuTest = prepareTestKarhu({
-      formatBefore: (logLevel: string, context: string, colorANSI: string, toLog: any[]) => {
-        return 'Overridden'
-      }
+      formatters: {
+        banana: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string) => {
+          return 'Overridden'
+        }
+      },
+      outputFormat: 'banana'
     })
 
     it('allows replacing the prefix', karhuTest((karhu, output) => {
@@ -20,10 +24,13 @@ describe('format-before-test', () => {
     let args: any
 
     const karhuTest = prepareTestKarhu({
-      formatBefore: (logLevel: string, context: string, colorANSI: string, toLog: any[]) => {
-        args = [logLevel, context, colorANSI, toLog]
-        return 'Overridden'
-      }
+      formatters: {
+        banana: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string) => {
+          args = [toLog, logLevel, context, colorStart, colorEnd]
+          return 'Overridden'
+        }
+      },
+      outputFormat: 'banana'
     })
 
     it('is called with the right arguments', karhuTest((karhu, output) => {

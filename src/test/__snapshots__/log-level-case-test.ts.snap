@@ -8,14 +8,14 @@ Map {
   "WARN" => Array [],
   "ERROR" => Array [
     Array [
-      "0 ERROR ctx[97m[101m",
-      "error1",
-      "[49m[39m",
+      "[1] [97m[101mERROR ctx error1[49m[39m",
+      "ERROR",
+      "ctx",
     ],
     Array [
-      "1 ERROR ctx[101m[97m",
-      "error2",
-      "[39m[49m",
+      "[2] [101m[97mERROR ctx error2[39m[49m",
+      "ERROR",
+      "ctx",
     ],
   ],
 }

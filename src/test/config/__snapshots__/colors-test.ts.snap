@@ -9,9 +9,9 @@ Map {
   "ERROR" => Array [],
   "POTATO" => Array [
     Array [
-      "0 POTATO test-context[91m",
-      "Custom log level",
-      "[39m",
+      "[1] [91mPOTATO test-context Custom log level[39m",
+      "POTATO",
+      "test-context",
     ],
   ],
 }
@@ -25,8 +25,9 @@ Map {
   "WARN" => Array [],
   "ERROR" => Array [
     Array [
-      "0 ERROR test-context",
-      "no color",
+      "[1] ERROR test-context no color",
+      "ERROR",
+      "test-context",
     ],
   ],
   "POTATO" => Array [],
@@ -39,22 +40,23 @@ Map {
   "DEBUG" => Array [],
   "INFO" => Array [
     Array [
-      "0 INFO test-context",
-      "No color",
+      "[1] INFO test-context No color",
+      "INFO",
+      "test-context",
     ],
   ],
   "WARN" => Array [
     Array [
-      "1 WARN test-context[95m",
-      "Single color",
-      "[39m",
+      "[2] [95mWARN test-context Single color[39m",
+      "WARN",
+      "test-context",
     ],
   ],
   "ERROR" => Array [
     Array [
-      "2 ERROR test-context[94m[101m",
-      "Multiple colors",
-      "[49m[39m",
+      "[3] [94m[101mERROR test-context Multiple colors[49m[39m",
+      "ERROR",
+      "test-context",
     ],
   ],
   "POTATO" => Array [],
@@ -69,9 +71,9 @@ Map {
   "WARN" => Array [],
   "ERROR" => Array [
     Array [
-      "0 ERROR test-context[91m",
-      "Default color",
-      "[39m",
+      "[1] [91mERROR test-context Default color[39m",
+      "ERROR",
+      "test-context",
     ],
   ],
 }
@@ -84,9 +86,9 @@ Map {
   "INFO" => Array [],
   "WARN" => Array [
     Array [
-      "0 WARN test-context[95m",
-      "Specified color",
-      "[39m",
+      "[1] [95mWARN test-context Specified color[39m",
+      "WARN",
+      "test-context",
     ],
   ],
   "ERROR" => Array [],

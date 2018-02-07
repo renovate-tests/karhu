@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`output-format-test json handles infinite recursion 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "{\\"timestamp\\":1,\\"context\\":\\"test-context\\",\\"logLevel\\":\\"INFO\\",\\"details\\":\\"[ { b: { a: [Circular] } } ]\\"}",
+      "INFO",
+      "test-context",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`output-format-test json is supported 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "{\\"timestamp\\":1,\\"context\\":\\"test-context\\",\\"logLevel\\":\\"INFO\\",\\"details\\":[\\"Hello\\",{\\"a\\":{\\"b\\":{\\"c\\":{\\"d\\":1}}}},[1,2,3]]}",
+      "INFO",
+      "test-context",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`output-format-test text is supported 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "[1] INFO test-context Hello { a: { b: 1 } } [ 1, 2, 3 ]",
+      "INFO",
+      "test-context",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;

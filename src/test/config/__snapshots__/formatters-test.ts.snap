@@ -2,9 +2,6 @@
 
 exports[`format-before-test args is called with the right arguments 1`] = `
 Array [
-  "WARN",
-  "test-context",
-  "[93m",
   Array [
     "Hello",
     1,
@@ -12,6 +9,10 @@ Array [
       "a": 1,
     },
   ],
+  "WARN",
+  "test-context",
+  "[93m",
+  "[39m",
 ]
 `;
 
@@ -22,7 +23,8 @@ Map {
   "INFO" => Array [
     Array [
       "Overridden",
-      "Hello",
+      "INFO",
+      "test-context",
     ],
   ],
   "WARN" => Array [],

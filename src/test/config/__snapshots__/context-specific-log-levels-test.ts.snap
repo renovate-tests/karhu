@@ -5,9 +5,9 @@ Map {
   "NONE" => Array [],
   "DEBUG" => Array [
     Array [
-      "0 DEBUG very-important[95m",
-      "This should show up",
-      "[39m",
+      "[1] [95mDEBUG very-important This should show up[39m",
+      "DEBUG",
+      "very-important",
     ],
   ],
   "INFO" => Array [],

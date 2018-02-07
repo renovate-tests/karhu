@@ -7,16 +7,16 @@ Map {
   "INFO" => Array [],
   "WARN" => Array [
     Array [
-      "1 WARN test-context[93m",
-      "Should also show up",
-      "[39m",
+      "[2] [93mWARN test-context Should also show up[39m",
+      "WARN",
+      "test-context",
     ],
   ],
   "ERROR" => Array [
     Array [
-      "0 ERROR test-context[97m[101m",
-      "Should show up",
-      "[49m[39m",
+      "[1] [97m[101mERROR test-context Should show up[49m[39m",
+      "ERROR",
+      "test-context",
     ],
   ],
 }
