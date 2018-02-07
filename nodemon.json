@@ -1,0 +1,7 @@
+{
+  "ignore": [
+    "lib"
+  ],
+  "ext": "js,ts",
+  "ignoreRoot": []
+}
