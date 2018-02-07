@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`context-specific-log-levels-test allows overriding the default log level for individual contexts 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [
+    Array [
+      "0 DEBUG very-important[95m",
+      "This should show up",
+      "[39m",
+    ],
+  ],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
