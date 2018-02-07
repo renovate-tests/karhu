@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default-log-level-test allows filtering messages that do not meet a priority threshold (unless overridden) 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [
+    Array [
+      "1 WARN test-context[93m",
+      "Should also show up",
+      "[39m",
+    ],
+  ],
+  "ERROR" => Array [
+    Array [
+      "0 ERROR test-context[97m[101m",
+      "Should show up",
+      "[49m[39m",
+    ],
+  ],
+}
+`;
