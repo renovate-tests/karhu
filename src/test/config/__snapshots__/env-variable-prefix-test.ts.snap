@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`env-variable-prefix-test allows using a different prefix applies on COLOR variable 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [
+    Array [
+      "0 ERROR ctx[97m[101m",
+      "should have color",
+      "[49m[39m",
+    ],
+    Array [
+      "1 ERROR ctx",
+      "should not have color",
+    ],
+  ],
+}
+`;
+
+exports[`env-variable-prefix-test allows using a different prefix applies to context specific overrides 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [
+    Array [
+      "0 DEBUG highprio[95m",
+      "should show up",
+      "[39m",
+    ],
+  ],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`env-variable-prefix-test allows using a different prefix applies to default log level override 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [
+    Array [
+      "0 WARN ctx[93m",
+      "should show up",
+      "[39m",
+    ],
+  ],
+  "ERROR" => Array [],
+}
+`;
