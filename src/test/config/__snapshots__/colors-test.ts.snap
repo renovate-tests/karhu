@@ -1,6 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`log-levels-test no default is able to use custom log levels 1`] = `
+exports[`colors-test no default colors can be applied to custom log levels 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+  "POTATO" => Array [
+    Array [
+      "0 POTATO test-context[91m",
+      "Custom log level",
+      "[39m",
+    ],
+  ],
+}
+`;
+
+exports[`colors-test no default colors can be disabled 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [
+    Array [
+      "0 ERROR test-context",
+      "no color",
+    ],
+  ],
+  "POTATO" => Array [],
+}
+`;
+
+exports[`colors-test no default colors of various log levels work 1`] = `
 Map {
   "NONE" => Array [],
   "DEBUG" => Array [],
@@ -24,5 +57,38 @@ Map {
       "[49m[39m",
     ],
   ],
+  "POTATO" => Array [],
+}
+`;
+
+exports[`colors-test with default default is used as a fallback 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [
+    Array [
+      "0 ERROR test-context[91m",
+      "Default color",
+      "[39m",
+    ],
+  ],
+}
+`;
+
+exports[`colors-test with default specified colors are used 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [
+    Array [
+      "0 WARN test-context[95m",
+      "Specified color",
+      "[39m",
+    ],
+  ],
+  "ERROR" => Array [],
 }
 `;
