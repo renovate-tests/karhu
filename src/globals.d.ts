@@ -13,7 +13,7 @@ declare module 'ansi-styles' {
   }
 
   export const bgColor: {
-    bgmagentaBright: Color,
+    bgMagentaBright: Color,
     bgWhiteBright: Color
     bgYellowBright: Color
     bgRedBright: Color
