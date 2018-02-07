@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`format-before-test args is called with the right arguments 1`] = `
+Array [
+  "WARN",
+  "test-context",
+  "[93m",
+  Array [
+    "Hello",
+    1,
+    Object {
+      "a": 1,
+    },
+  ],
+]
+`;
+
+exports[`format-before-test functionality allows replacing the prefix 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "Overridden",
+      "Hello",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
