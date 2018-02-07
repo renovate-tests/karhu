@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`context-log-level-test allows overriding default log level 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [
+    Array [
+      "0 WARN ctx[93m",
+      "Should show up",
+      "[39m",
+    ],
+  ],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`context-log-level-test non-alphanumeric character sequences are handled as underscores in env variable name 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [
+    Array [
+      "0 WARN a+-/b    c[93m",
+      "Should show up",
+      "[39m",
+    ],
+  ],
+  "ERROR" => Array [],
+}
+`;

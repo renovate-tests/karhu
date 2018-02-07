@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`default-log-level-test allows overriding default log level 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [
+    Array [
+      "0 WARN test-context[93m",
+      "Should show up",
+      "[39m",
+    ],
+  ],
+  "ERROR" => Array [],
+}
+`;
