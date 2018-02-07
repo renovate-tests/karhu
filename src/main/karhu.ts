@@ -87,14 +87,15 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
   if (eventLogPrio < activeLogLevelPrio) return
 
   const color = config.colors[logLevel] || config.colors.default || noColor,
+    colorEnabled = isColorEnabled(config),
     openColor = asArray(color).map(c => c.open).join(''),
-    before = config.formatBefore(logLevel, activeContext, openColor, toLog),
+    before = config.formatBefore(logLevel, activeContext, colorEnabled ? openColor : '', toLog),
     mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog)),
     outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
 
   const closeColor = asArray(color).reverse().map(c => c.close).join('')
 
-  if (isColorEnabled(config) && before.includes(openColor) && closeColor) {
+  if (colorEnabled && before.includes(openColor) && closeColor) {
     outputImpl(before, ...mappedValues, closeColor)
   } else {
     outputImpl(before, ...mappedValues)
