@@ -5,7 +5,7 @@ type Context = string
 type LogLevel = string
 
 export interface KarhuOutputImpl {
-  [logLevel: string]: (toLog: any, logLevel: string, context: string) => void
+  [logLevel: string]: (toLog: any, logLevel: string, context: string, config: KarhuConfig) => void
 }
 
 export interface KarhuConfig {
@@ -101,7 +101,7 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
     outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
 
   const formatted = config.formatters[config.outputFormat](mappedValues, logLevel, activeContext, config, openColor, closeColor)
-  outputImpl(formatted, logLevel, activeContext)
+  outputImpl(formatted, logLevel, activeContext, config)
 }
 
 function getLogLevel(config: KarhuConfig, activeContext: Context) {

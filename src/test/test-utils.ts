@@ -9,10 +9,10 @@ class TestOutputTracker {
     const trackerAsAny = this.tracker as any
     for (const logType of config.logLevels) {
       this.tracked.set(logType, [])
-      trackerAsAny[logType] = (...args: any[]) => {
+      trackerAsAny[logType] = (toLog: any[], logLevel: string, context: string) => {
         const tracked = this.tracked.get(logType)
         if (!tracked) throw new Error('Internal error')
-        tracked.push(args)
+        tracked.push([toLog, logLevel, context])
       }
     }
   }

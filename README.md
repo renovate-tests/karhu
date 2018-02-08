@@ -159,10 +159,13 @@ The default implementation calls `console.error` for errors, `console.warn` for 
 `console.log` for everything else.
 
     const outputImpl = {
-        ERROR: (...toLog) => console.error(...toLog),
-        WARN: (...toLog) => console.warn(...toLog), 
-        default: (...toLog) => console.log(...toLog)
+        ERROR: (toLog, logLevel, context, config) => console.error(...toLog),
+        WARN: (toLog, logLevel, context, config) => console.warn(...toLog), 
+        default: (toLog, logLevel, context, config) => console.log(...toLog)
     }
+    
+The functions receive the things being logged as an array (after applying mapping of `outputMapper`),
+the log level and context for the event and the active configuration.
 
 ### Run-time configuration
 
