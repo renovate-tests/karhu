@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`output-capture-test can be aborted 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`output-capture-test log levels can be changed 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "[2] INFO test-context Wut?",
+      "INFO",
+      "test-context",
+    ],
+  ],
+  "WARN" => Array [
+    Array [
+      "[1] [93mWARN test-context Warn[39m",
+      "WARN",
+      "test-context",
+    ],
+  ],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`output-capture-test turns  into INFO by default 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "[1] INFO test-context Hello",
+      "INFO",
+      "test-context",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`output-capture-test turns stderr into ERROR by default 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [
+    Array [
+      "[1] [97m[101mERROR test-context OMG[49m[39m",
+      "ERROR",
+      "test-context",
+    ],
+  ],
+}
+`;
