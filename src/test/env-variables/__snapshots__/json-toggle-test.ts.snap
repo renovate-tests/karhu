@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`json-toggle-test the default config produces json if KARHU_JSON is set to a truthy value 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [
+    Array [
+      "{\\"timestamp\\":1,\\"context\\":\\"test-context\\",\\"logLevel\\":\\"ERROR\\",\\"details\\":[\\"Should be json\\",{\\"value\\":true}]}",
+      "ERROR",
+      "test-context",
+    ],
+  ],
+}
+`;
