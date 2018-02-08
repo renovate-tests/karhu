@@ -94,22 +94,33 @@ for example.
 
 You can also specify color for `default`, which is used if no other color matches.
 
-#### formatBefore
+#### outputFormat
 
-Logged events can be prefixed by whatever you want. The default prefix includes the moment of the event in UTC time,
-event type and context.
+The format that is to be used for output. The default config includes support for `text` and `json`,
+but you can specify additional formats in `formatters`. The default config defaults to `text`, unless
+the environment variable `KARHU_JSON` is set to a truthy value.
 
-You can provide a function to update the format to become whatever you want. If the output of the
-function does not include the value in the `colorStart` parameter, colors are disabled.
+#### formatters
 
-    const formatBefore = (logLevel, context, colorStart, toLog) => colorStart 
+Formatters transform the logged data into something that can be output. Typically that means
+strings, but anything accepted by the `outputImpl` of the config can be used.
+
+The default config includes formatters for `text` and `json`.
+
+#### formatNow
+
+This option should contain a function that returns the current moment timestamp in whatever
+format is desired for the log.
+
+The default config uses `new Date().toISOString()`, which produces a timestamp that looks
+pretty much like this: `2018-02-08T11:20:25.690Z`, always in UTC.
+
+The default formatters utilize this function, but custom formatters might not.
+
+    const formatNow = config => new Date().toISOString()
     
-The parameters are:
-
-- logLevel: the log level for the event being logged
-- context: the context for the event
-- colorStart: an ANSI sequence to set up the color, or empty string if colors are not supported
-- toLog: an array of whatever is being logged
+The function gets the active configuration as a parameter, in case you want to make the decision
+based on output format, for example.
 
 #### contextSpecificLogLevels
 
