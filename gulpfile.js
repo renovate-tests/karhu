@@ -4,7 +4,7 @@ const gulp = require('gulp'),
   clean = require('gulp-clean'),
   cp = require('child_process')
 
-const target = 'lib'
+const target = 'build'
 
 gulp.task('clean-build', function () {
   return gulp.src(target, {read: false})
