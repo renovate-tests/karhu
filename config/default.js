@@ -1,1 +1,1 @@
-module.exports = require('../build/config/default')
+module.exports = require('../build/config/default').default

@@ -1,1 +1,1 @@
-module.exports = require('../build/config/jelpp')
+module.exports = require('../build/config/jelpp').default
