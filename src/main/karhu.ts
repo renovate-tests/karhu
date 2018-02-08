@@ -1,6 +1,7 @@
 import defaultConfigImpl from '../config/default'
 import {Color} from 'ansi-styles'
 import {logLevelsMatch} from './util'
+import {enableStandardOutputCapture} from './capturer'
 
 type Context = string
 type LogLevel = string
@@ -142,4 +143,9 @@ function isColorEnabled(config: KarhuConfig) {
   if (override === '0' || override === 'false') return false
   if (override === '1' || override === 'true') return true
   return process.stdout.isTTY
+}
+
+export const captureStandardOutput = (logger: KarhuLogger, stdoutLogLevel = 'INFO', stderrLogLevel = 'ERROR') => {
+  if (!logger) throw new Error('Please provide a logger in the proper context to captureStandardOutput')
+  return enableStandardOutputCapture(logger, stdoutLogLevel, stderrLogLevel)
 }

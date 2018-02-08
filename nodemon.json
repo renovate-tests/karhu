@@ -1,6 +1,6 @@
 {
   "ignore": [
-    "lib"
+    "build"
   ],
   "ext": "js,ts",
   "ignoreRoot": []
