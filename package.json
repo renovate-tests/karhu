@@ -1,22 +1,15 @@
 {
   "name": "karhu",
   "version": "0.0.1",
+  "description": "A node.js migration tool suitable for all kinds of migrations",
   "dependencies": {
+    "ansi-styles": "^3.2.0"
+  },
+  "devDependencies": {
     "@types/chai": "^4.0.10",
     "@types/jest": "^22.1.1",
     "@types/lodash": "^4.14.88",
     "@types/node": "^8.0.57",
-    "ansi-styles": "^3.2.0",
-    "bluebird": "^3.5.1",
-    "chai": "^3.3.0",
-    "cli-color": "^1.2.0",
-    "harmony-proxy": "0.0.2",
-    "lodash": "^4.17.4",
-    "mocha": "^2.3.3",
-    "pre-commit": "^1.2.2",
-    "typescript": "^2.6.2"
-  },
-  "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.2",
     "gulp-spawn-mocha": "^2.2.1",
@@ -25,8 +18,10 @@
     "jest": "^22.1.4",
     "nodemon": "^1.12.5",
     "npm-release": "^1.0.0",
+    "pre-commit": "^1.2.2",
     "ts-jest": "^22.0.3",
-    "tslint": "^5.8.0"
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.2"
   },
   "scripts": {
     "build": "gulp build",
@@ -57,5 +52,15 @@
     "setupFiles": [
       "<rootDir>/src/test/test-setup.ts"
     ]
-  }
+  },
+  "homepage": "https://github.com/BaronaGroup/karhu",
+  "repository": {
+    "type": "git",
+    "url": "BaronaGroup/karhu"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tapani Haka"
+  },
+  "main": "lib/karhu"
 }
