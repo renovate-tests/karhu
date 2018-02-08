@@ -30,7 +30,7 @@
     "test": "jest",
     "tslintfix": "npm run tslint -- --fix",
     "nmt": "nodemon -x npm -- test -- --bail",
-    "prepare": "npm run build",
+    "prepare": "npm run gulp clean build",
     "release": "npm test && npm-release"
   },
   "pre-commit": [
