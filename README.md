@@ -58,6 +58,27 @@ Log levels cannot be updated with this API at this time.
 
     karhu.reconfigure({defaultLogLevel: 'DEBUG'})
 
+### Wrapping output outside of explicit logging
+
+You may want to enforce a consistent format to all output, even if it is done by, let's say
+a library that uses `console.log`.
+
+This is something karhu can help you with. By calling `captureStandardOutput` you set up
+capturing of standard output and turning that into log events.
+
+By default everything to stdout becomes `INFO` events and everything to stderr becomes `ERROR`
+events.
+
+The function must be provided with the context it will use.
+
+    karhu.captureStandardOutput(karhu.context('captured-output'), 'INFO', 'ERROR')
+    
+If you for whatever reason want to stop capturing the output, you can call `abort()` on the
+value returned by the call
+
+    const abortable = karhu.captureStandardOutput(karhu.context('captured-output'))
+    abortable.abort()
+
 ### Logging
 
 A logger has methods for all of the specified logging levels. The default levels are
