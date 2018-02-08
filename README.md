@@ -155,12 +155,17 @@ based on output format, for example.
 
 #### contextSpecificLogLevels
 
-This object allows you to specify log levels for individual contexts to be different from the
+This map allows you to specify log levels for individual contexts to be different from the
 default.
 
-    const contextSpecificLogLevels = {
-        "src/app": "ERROR" // ignore everything less than an error
-    }
+The context can be either the specific context as a string or a regular expression that will
+apply the log level to any matching context. Specific log level on a context always
+overrides regular expressions.
+
+    const contextSpecificLogLevels = new Map([
+        ["src/app", "ERROR"], // ignore everything less than an error
+        [/special/, "DEBUG"]
+    ])
     
 #### defaultLogLevel
 
