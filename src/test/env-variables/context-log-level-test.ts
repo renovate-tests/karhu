@@ -3,9 +3,9 @@ import {prepareTestKarhu} from '../test-utils'
 describe('context-log-level-test', () => {
   const karhuTest = prepareTestKarhu({
     defaultLogLevel: 'ERROR',
-    contextSpecificLogLevels: {
-      ctx: 'ERROR'
-    }
+    contextSpecificLogLevels: new Map([
+      ['ctx', 'ERROR']
+    ])
   })
 
   it('allows overriding default log level', karhuTest((karhu, output) => {

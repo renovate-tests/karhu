@@ -34,7 +34,7 @@ const defaultConfig: KarhuConfig = {
       }
     }
   },
-  contextSpecificLogLevels: {},
+  contextSpecificLogLevels: new Map(),
   defaultLogLevel: 'INFO',
   envVariablePrefix: 'KARHU',
   outputMapper: value => value,

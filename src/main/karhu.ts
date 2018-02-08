@@ -1,7 +1,7 @@
 import defaultConfigImpl from '../config/default'
 import {Color} from 'ansi-styles'
 import {logLevelsMatch} from './util'
-import {enableStandardOutputCapture} from './capturer'
+import {enableStandardOutputCapture, toggleForceCaptureDisabled} from './capturer'
 
 type Context = string
 type LogLevel = string
@@ -19,9 +19,7 @@ export interface KarhuConfig {
   formatters: {
     [outputFormat: string]: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string) => any,
   }
-  contextSpecificLogLevels: {
-    [context: string]: LogLevel
-  }
+  contextSpecificLogLevels: Map<string | RegExp, LogLevel>
   defaultLogLevel: LogLevel
   envVariablePrefix: string,
   outputMapper: (value: any, logLevel: string, context: string, toLog: any[]) => any,
@@ -47,9 +45,9 @@ export interface KarhuLogger {
   DEBUG: LogFunction
 }
 
-let defaultConfig: KarhuConfig | undefined
+let globalConfig: KarhuConfig | undefined
 
-if (!defaultConfig) defaultConfig = loadConfig()
+if (!globalConfig) globalConfig = loadConfig()
 
 function loadConfig(newConfig: KarhuConfig | null = null): KarhuConfig {
   const config = newConfig || defaultConfigImpl
@@ -58,22 +56,27 @@ function loadConfig(newConfig: KarhuConfig | null = null): KarhuConfig {
 }
 
 export function configure(config: null | KarhuConfig) {
-  defaultConfig = loadConfig(config)
+  globalConfig = loadConfig(config)
 }
 
 export interface Karhu<LogImpl> {
   context: (context: string) => LogImpl
   reconfigure: (newConfig: Partial<KarhuConfig>) => void
+  getConfig: () => KarhuConfig
 }
 
-export const context = (activeContext: Context) => usingConfig(() => required(defaultConfig)).context(activeContext)
+export const context = (activeContext: Context) => usingConfig(() => required(globalConfig)).context(activeContext)
+export function getGlobalConfig() {
+  return globalConfig
+}
 
 export function usingConfig<LogImpl = KarhuLogger>(configSource: KarhuConfig | (() => KarhuConfig)): Karhu<LogImpl> {
   const config = typeof configSource === 'function' ? configSource() : configSource
 
   return {
     context: forContext,
-    reconfigure
+    reconfigure,
+    getConfig: () => config
   }
 
   function forContext(activeContext: string) {
@@ -112,11 +115,24 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
     outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
 
   const formatted = config.formatters[config.outputFormat](mappedValues, logLevel, activeContext, config, openColor, closeColor)
+  toggleForceCaptureDisabled(true)
   outputImpl(formatted, logLevel, activeContext, config)
+  toggleForceCaptureDisabled(false)
 }
 
 function getLogLevel(config: KarhuConfig, activeContext: Context) {
-  return getOverrideLogLevel(config, activeContext) || config.contextSpecificLogLevels[activeContext] || getOverrideLogLevel(config, null) || config.defaultLogLevel
+  return getOverrideLogLevel(config, activeContext) || getContextSpecificOverrideFromContext() || getOverrideLogLevel(config, null) || config.defaultLogLevel
+
+  function getContextSpecificOverrideFromContext() {
+    const perfectOverride = config.contextSpecificLogLevels.get(activeContext)
+    if (perfectOverride) return perfectOverride
+    for (const key of config.contextSpecificLogLevels.keys()) {
+      if (key instanceof RegExp && key.test(activeContext)) {
+        return config.contextSpecificLogLevels.get(key)
+      }
+    }
+    return perfectOverride
+  }
 }
 
 function getOverrideLogLevel(config: KarhuConfig, activeContext: Context | null) {

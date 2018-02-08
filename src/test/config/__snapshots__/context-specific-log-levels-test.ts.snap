@@ -15,3 +15,35 @@ Map {
   "ERROR" => Array [],
 }
 `;
+
+exports[`context-specific-log-levels-test perfect match is preferred over regexp 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [
+    Array [
+      "[1] [95mDEBUG long-match This should show up[39m",
+      "DEBUG",
+      "long-match",
+    ],
+  ],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`context-specific-log-levels-test regexp are supported 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "[1] INFO this-should-match This should show up",
+      "INFO",
+      "this-should-match",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
