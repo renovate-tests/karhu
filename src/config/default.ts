@@ -11,11 +11,10 @@ export const logLevels = [
   'ERROR'
 ]
 
-export const colors = {
+const colors = {
   DEBUG: ansiColor.magentaBright,
   WARN: ansiColor.yellowBright,
   ERROR: [ansiColor.whiteBright, bgColor.bgRedBright],
-  NOTICE: ansiColor.blueBright
 }
 
 const defaultConfig: KarhuConfig = {
