@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`config-update-test is not possible to update log levels 1`] = `"Log levels cannot be updated with reconfigure"`;
+
+exports[`config-update-test is possible to update configuration when running 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [
+    Array [
+      "[1] [95mDEBUG test This should show up[39m",
+      "DEBUG",
+      "test",
+    ],
+  ],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;

@@ -48,6 +48,16 @@ different. The context is a string; you can specify whatever you want.
  
     const log = karhu.context('mymodulename')
 
+### Updating configuration
+
+If you want to update configuration, you can call `reconfigure` on any karhu instance, including
+the default one. All existing contexts using that instance will use the new configuration from
+then on.
+
+Log levels cannot be updated with this API at this time. 
+
+    karhu.reconfigure({defaultLogLevel: 'DEBUG'})
+
 ### Logging
 
 A logger has methods for all of the specified logging levels. The default levels are

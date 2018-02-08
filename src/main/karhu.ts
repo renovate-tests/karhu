@@ -1,5 +1,6 @@
 import defaultConfigImpl from '../config/default'
 import {Color} from 'ansi-styles'
+import {logLevelsMatch} from './util'
 
 type Context = string
 type LogLevel = string
@@ -61,6 +62,7 @@ export function configure(config: null | KarhuConfig) {
 
 export interface Karhu<LogImpl> {
   context: (context: string) => LogImpl
+  reconfigure: (newConfig: Partial<KarhuConfig>) => void
 }
 
 export const context = (activeContext: Context) => usingConfig(() => required(defaultConfig)).context(activeContext)
@@ -69,7 +71,8 @@ export function usingConfig<LogImpl = KarhuLogger>(configSource: KarhuConfig | (
   const config = typeof configSource === 'function' ? configSource() : configSource
 
   return {
-    context: forContext
+    context: forContext,
+    reconfigure
   }
 
   function forContext(activeContext: string) {
@@ -83,6 +86,13 @@ export function usingConfig<LogImpl = KarhuLogger>(configSource: KarhuConfig | (
     }
 
     return impl as LogImpl
+  }
+
+  function reconfigure(newConfig: Partial<KarhuConfig>) {
+    if (newConfig.logLevels && !logLevelsMatch(config.logLevels, newConfig.logLevels)) {
+      throw new Error('Log levels cannot be updated with reconfigure')
+    }
+    Object.assign(config, newConfig)
   }
 }
 
