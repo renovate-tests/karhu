@@ -95,7 +95,7 @@ just as `console.log` would.
 ### Configuration
 
 Karhu is configured using a javascript object, that has properties presented below. You probably want
-to base your config based on the default config, which can be obtained using `require('karhu/lib/config/default')`
+to base your config based on the default config, which can be obtained using `require('karhu/config/default')`
 
 #### logLevels
 
