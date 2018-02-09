@@ -158,7 +158,7 @@ function isColorEnabled(config: KarhuConfig) {
   const override = process.env[config.envVariablePrefix + '_COLOR']
   if (override === '0' || override === 'false') return false
   if (override === '1' || override === 'true') return true
-  return process.stdout.isTTY
+  return !!(process.stdout && process.stdout.isTTY)
 }
 
 export const captureStandardOutput = (logger: KarhuLogger, stdoutLogLevel = 'INFO', stderrLogLevel = 'ERROR') => {
