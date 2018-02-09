@@ -2,6 +2,7 @@ import {color as ansiColor, bgColor} from 'ansi-styles'
 import {KarhuConfig} from '../main/karhu'
 import {karhuInspect} from '../main/util'
 import {inspect} from 'util'
+import defaultOutputImpl from '../main/default-output-impl'
 
 export const logLevels = [
   'NONE', // Not to be used for messages, but allows setting log level to NONE,
@@ -38,11 +39,7 @@ const defaultConfig: KarhuConfig = {
   defaultLogLevel: 'INFO',
   envVariablePrefix: 'KARHU',
   outputMapper: value => value,
-  outputImpl: {
-    ERROR: (toLog) => console.error(toLog), /* tslint:disable-line:no-console */
-    WARN: (toLog) => console.warn(toLog), /* tslint:disable-line:no-console */
-    default: (toLog) => console.log(toLog) /* tslint:disable-line:no-console */
-  },
+  outputImpl: defaultOutputImpl,
   formatNow: () => new Date().toISOString()
 }
 
