@@ -1,19 +1,18 @@
-import {Karhu, KarhuConfig, KarhuLogger, KarhuOutputImpl, usingConfig} from '../main/karhu'
+import {Karhu, KarhuConfig, KarhuLogger, KarhuTransport, usingConfig} from '../main/karhu'
 import defaultConfig from '../config/default'
 
 class TestOutputTracker {
   public tracked: Map<string, any[][]> = new Map()
-  public tracker: KarhuOutputImpl = {}
+  public tracker: KarhuTransport = new Map()
 
   public setup(config: KarhuConfig) {
-    const trackerAsAny = this.tracker as any
     for (const logType of config.logLevels) {
       this.tracked.set(logType, [])
-      trackerAsAny[logType] = (toLog: any[], logLevel: string, context: string) => {
+      this.tracker.set(logType, (toLog: any[], logLevel: string, context: string) => {
         const tracked = this.tracked.get(logType)
         if (!tracked) throw new Error('Internal error')
         tracked.push([toLog, logLevel, context])
-      }
+      })
     }
   }
 }
@@ -25,7 +24,7 @@ export function prepareTestKarhu<LoggerType = KarhuLogger>(partialConfig: Partia
       const output = new TestOutputTracker()
       const config: KarhuConfig = {
         ...defaultConfig,
-        outputImpl: output.tracker,
+        transports: new Map([['test', output.tracker]]),
         formatNow: () => ++index,
         ...partialConfig
       }

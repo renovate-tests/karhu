@@ -134,7 +134,7 @@ the environment variable `KARHU_JSON` is set to a truthy value.
 #### formatters
 
 Formatters transform the logged data into something that can be output. Typically that means
-strings, but anything accepted by the `outputImpl` of the config can be used.
+strings, but anything accepted by the `transports` of the config can be used.
 
 The default config includes formatters for `text` and `json`.
 
@@ -187,18 +187,22 @@ along with other relevant information and it is expected to return whatever is t
         return value    
     } 
 
-#### outputImpl
+#### transports
 
-This is an object, that allows you to change the actual means of generating the output.
+Transports is a map from transport name to the actual means of generating the output.
 
-The default implementation calls `console.error` for errors, `console.warn` for warning and
-`console.log` for everything else.
+The default implementation includes `console` transport, which calls `console.error` for 
+errors, `console.warn` for warning and `console.log` for everything else.
 
-    const outputImpl = {
-        ERROR: (toLog, logLevel, context, config) => console.error(...toLog),
-        WARN: (toLog, logLevel, context, config) => console.warn(...toLog), 
-        default: (toLog, logLevel, context, config) => console.log(...toLog)
-    }
+    const consoleTransport = new Map([
+         ['ERROR', (toLog, logLevel, context, config) => console.error(...toLog)],
+         ['WARN', (toLog, logLevel, context, config) => console.warn(...toLog)], 
+         ['default', (toLog, logLevel, context, config) => console.log(...toLog)]
+     ])
+
+    const outputImpl = new Map([
+        ['console', consoleTransport']
+    ]) 
     
 The functions receive the things being logged as an array (after applying mapping of `outputMapper`),
 the log level and context for the event and the active configuration.

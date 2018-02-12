@@ -39,7 +39,7 @@ const defaultConfig: KarhuConfig = {
   defaultLogLevel: 'INFO',
   envVariablePrefix: 'KARHU',
   outputMapper: value => value,
-  outputImpl: defaultOutputImpl,
+  transports: new Map([['console', defaultOutputImpl]]),
   formatNow: () => new Date().toISOString()
 }
 

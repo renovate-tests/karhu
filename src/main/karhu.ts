@@ -6,9 +6,9 @@ import {enableStandardOutputCapture, toggleForceCaptureDisabled} from './capture
 type Context = string
 type LogLevel = string
 
-export interface KarhuOutputImpl {
-  [logLevel: string]: (toLog: any, logLevel: string, context: string, config: KarhuConfig) => void
-}
+type KarhuTransportFn = (toLog: any, logLevel: string, context: string, config: KarhuConfig) => void
+
+export type KarhuTransport = Map<string, KarhuTransportFn>
 
 export interface KarhuConfig {
   logLevels: string[]
@@ -17,13 +17,13 @@ export interface KarhuConfig {
   }
   outputFormat: string
   formatters: {
-    [outputFormat: string]: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string) => any,
+    [outputFormat: string]: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: string) => any,
   }
   contextSpecificLogLevels: Map<string | RegExp, LogLevel>
   defaultLogLevel: LogLevel
   envVariablePrefix: string,
   outputMapper: (value: any, logLevel: string, context: string, toLog: any[]) => any,
-  outputImpl: KarhuOutputImpl,
+  transports: Map<string, KarhuTransport>,
   formatNow: (config: KarhuConfig) => string | number
 }
 
@@ -106,18 +106,22 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
 
   if (eventLogPrio < activeLogLevelPrio) return
 
-  const
+  for (const [transportName, transport] of config.transports.entries()) {
+    const
       colorEnabled = isColorEnabled(config),
-    color = colorEnabled ? config.colors[logLevel] || config.colors.default || noColor : noColor,
-    openColor = asArray(color).map(c => c.open).join(''),
-    closeColor = asArray(color).reverse().map(c => c.close).join(''),
-    mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog)),
-    outputImpl = config.outputImpl[logLevel] || config.outputImpl.default
+      color = colorEnabled ? config.colors[logLevel] || config.colors.default || noColor : noColor,
+      openColor = asArray(color).map(c => c.open).join(''),
+      closeColor = asArray(color).reverse().map(c => c.close).join(''),
+      mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog)),
+      outputImpl = transport.get(logLevel) || transport.get('default')
 
-  const formatted = config.formatters[config.outputFormat](mappedValues, logLevel, activeContext, config, openColor, closeColor)
-  toggleForceCaptureDisabled(true)
-  outputImpl(formatted, logLevel, activeContext, config)
-  toggleForceCaptureDisabled(false)
+    if (!outputImpl) throw new Error('Transport ' + transportName + ' does not support log level ' + logLevel + ' or default')
+
+    const formatted = config.formatters[config.outputFormat](mappedValues, logLevel, activeContext, config, openColor, closeColor, transportName)
+    toggleForceCaptureDisabled(true)
+    outputImpl(formatted, logLevel, activeContext, config)
+    toggleForceCaptureDisabled(false)
+  }
 }
 
 function getLogLevel(config: KarhuConfig, activeContext: Context) {
