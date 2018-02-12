@@ -32,4 +32,19 @@ describe('output-mapper-test', () => {
       expect(args).toMatchSnapshot()
     }))
   })
+
+  describe('transport', () => {
+    const karhuTest = prepareTestKarhu({
+        outputMapper: val => val * 2
+      },
+      {
+        outputMapper: val => val + 10
+      }
+    )
+
+    it('can provide its own mapper', karhuTest((karhu, output) => {
+      karhu.context('ctx').error(5)
+      expect(output.tracked).toMatchSnapshot()
+    }))
+  })
 })

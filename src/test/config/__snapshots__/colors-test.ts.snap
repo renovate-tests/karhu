@@ -63,6 +63,22 @@ Map {
 }
 `;
 
+exports[`colors-test transport can override colors specified colors are used 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [
+    Array [
+      "[1] [93mWARN test-context Yellow[39m",
+      "WARN",
+      "test-context",
+    ],
+  ],
+  "ERROR" => Array [],
+}
+`;
+
 exports[`colors-test with default default is used as a fallback 1`] = `
 Map {
   "NONE" => Array [],

@@ -31,3 +31,19 @@ Map {
   "ERROR" => Array [],
 }
 `;
+
+exports[`format-before-test transports can provide additional/replacement formatters allows replacing the prefix 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "Howdy",
+      "INFO",
+      "test-context",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;

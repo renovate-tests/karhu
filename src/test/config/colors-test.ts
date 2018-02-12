@@ -59,4 +59,17 @@ describe('colors-test', () => {
       expect(output.tracked).toMatchSnapshot()
     }))
   })
+
+  describe('transport can override colors', () => {
+    const karhuTest = prepareTestKarhu({}, {
+      colors: {
+        WARN: ansiColor.yellowBright,
+      }
+    })
+
+    it('specified colors are used', karhuTest((karhu, output) => {
+      karhu.context('test-context').warn('Yellow')
+      expect(output.tracked).toMatchSnapshot()
+    }))
+  })
 })

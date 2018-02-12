@@ -7,24 +7,31 @@ type Context = string
 type LogLevel = string
 
 type KarhuTransportFn = (toLog: any, logLevel: string, context: string, config: KarhuConfig) => void
+type KarhuTransportMap = Map<string, KarhuTransportFn>
 
-export type KarhuTransport = Map<string, KarhuTransportFn>
-
-export interface KarhuConfig {
-  logLevels: string[]
+export interface KarhuReconfigurable {
   colors: {
     [logLevel: string]: Color | Color[]
   }
   outputFormat: string
   formatters: {
-    [outputFormat: string]: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: string) => any,
+    [outputFormat: string]: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: KarhuTransport) => any,
   }
-  contextSpecificLogLevels: Map<string | RegExp, LogLevel>
   defaultLogLevel: LogLevel
-  envVariablePrefix: string,
-  outputMapper: (value: any, logLevel: string, context: string, toLog: any[]) => any,
-  transports: Map<string, KarhuTransport>,
+  outputMapper: (value: any, logLevel: string, context: string, toLog: any[], index: number) => any,
   formatNow: (config: KarhuConfig) => string | number
+}
+
+export interface KarhuTransport extends Partial<KarhuReconfigurable> {
+  supportsColor: () => boolean
+  outputImpl: KarhuTransportMap
+}
+
+export interface KarhuConfig extends KarhuReconfigurable {
+  logLevels: string[]
+  contextSpecificLogLevels: Map<string | RegExp, LogLevel>
+  envVariablePrefix: string,
+  transports: Map<string, KarhuTransport>
 }
 
 const noColor = {
@@ -66,6 +73,7 @@ export interface Karhu<LogImpl> {
 }
 
 export const context = (activeContext: Context) => usingConfig(() => required(globalConfig)).context(activeContext)
+
 export function getGlobalConfig() {
   return globalConfig
 }
@@ -101,31 +109,40 @@ export function usingConfig<LogImpl = KarhuLogger>(configSource: KarhuConfig | (
 }
 
 function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, toLog: any[]) {
-  const eventLogPrio = config.logLevels.indexOf(logLevel),
-    activeLogLevelPrio = config.logLevels.indexOf(getLogLevel(config, activeContext))
-
-  if (eventLogPrio < activeLogLevelPrio) return
+  const eventLogPrio = config.logLevels.indexOf(logLevel)
 
   for (const [transportName, transport] of config.transports.entries()) {
+    const activeLogLevelPrio = config.logLevels.indexOf(getLogLevel(config, transport, activeContext))
+
+    if (eventLogPrio < activeLogLevelPrio) continue
+
     const
-      colorEnabled = isColorEnabled(config),
-      color = colorEnabled ? config.colors[logLevel] || config.colors.default || noColor : noColor,
+      colorEnabled = isColorEnabled(config, transport),
+      color = colorEnabled ? getConfigColor(config, transport, logLevel) || noColor : noColor,
       openColor = asArray(color).map(c => c.open).join(''),
       closeColor = asArray(color).reverse().map(c => c.close).join(''),
-      mappedValues = toLog.map(value => config.outputMapper(value, logLevel, activeContext, toLog)),
-      outputImpl = transport.get(logLevel) || transport.get('default')
+      outputMapper = transport.outputMapper || config.outputMapper,
+      mappedValues = toLog.map((value, i) => outputMapper(value, logLevel, activeContext, toLog, i)),
+      outputImpl = transport.outputImpl.get(logLevel) || transport.outputImpl.get('default')
 
     if (!outputImpl) throw new Error('Transport ' + transportName + ' does not support log level ' + logLevel + ' or default')
 
-    const formatted = config.formatters[config.outputFormat](mappedValues, logLevel, activeContext, config, openColor, closeColor, transportName)
+    const outputFormat = transport.outputFormat || config.outputFormat
+    const formatter = (transport.formatters || {})[outputFormat] || config.formatters[outputFormat]
+    const formatted = formatter(mappedValues, logLevel, activeContext, config, openColor, closeColor, transport)
     toggleForceCaptureDisabled(true)
     outputImpl(formatted, logLevel, activeContext, config)
     toggleForceCaptureDisabled(false)
   }
 }
 
-function getLogLevel(config: KarhuConfig, activeContext: Context) {
-  return getOverrideLogLevel(config, activeContext) || getContextSpecificOverrideFromContext() || getOverrideLogLevel(config, null) || config.defaultLogLevel
+function getConfigColor(config: KarhuConfig, transport: KarhuTransport, logLevel: string) {
+  const colors = transport.colors || config.colors
+  return colors[logLevel] || colors.default
+}
+
+function getLogLevel(config: KarhuConfig, transport: KarhuTransport, activeContext: Context) {
+  return getOverrideLogLevel(config, activeContext) || getContextSpecificOverrideFromContext() || getOverrideLogLevel(config, null) || transport.defaultLogLevel || config.defaultLogLevel
 
   function getContextSpecificOverrideFromContext() {
     const perfectOverride = config.contextSpecificLogLevels.get(activeContext)
@@ -158,11 +175,11 @@ function asArray<T>(inVal: T | T[]): T[] {
   return [inVal]
 }
 
-function isColorEnabled(config: KarhuConfig) {
+function isColorEnabled(config: KarhuConfig, transport: KarhuTransport) {
   const override = process.env[config.envVariablePrefix + '_COLOR']
   if (override === '0' || override === 'false') return false
   if (override === '1' || override === 'true') return true
-  return !!(process.stdout && process.stdout.isTTY)
+  return transport.supportsColor
 }
 
 export const captureStandardOutput = (logger: KarhuLogger, stdoutLogLevel = 'INFO', stderrLogLevel = 'ERROR') => {

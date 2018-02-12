@@ -47,3 +47,19 @@ Map {
   "ERROR" => Array [],
 }
 `;
+
+exports[`output-format-test transport can override format 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "{\\"timestamp\\":1,\\"context\\":\\"test-context\\",\\"logLevel\\":\\"INFO\\",\\"details\\":[\\"Hello\\",{\\"a\\":{\\"b\\":1}},[1,2,3]]}",
+      "INFO",
+      "test-context",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;

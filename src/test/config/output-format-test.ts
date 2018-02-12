@@ -30,6 +30,16 @@ describe('output-format-test', () => {
       karhu.context('test-context').info(recursive)
       expect(output.tracked).toMatchSnapshot()
     }))
+  })
 
+  describe('transport', () => {
+    const karhuTest = prepareTestKarhu({ outputFormat: 'text'}, {
+      outputFormat: 'json'
+    })
+
+    it('can override format', karhuTest((karhu, output) => {
+      karhu.context('test-context').info('Hello', {a: {b: 1}}, [1, 2, 3])
+      expect(output.tracked).toMatchSnapshot()
+    }))
   })
 })

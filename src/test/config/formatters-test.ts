@@ -38,4 +38,20 @@ describe('format-before-test', () => {
       expect(args).toMatchSnapshot()
     }))
   })
+
+  describe('transports can provide additional/replacement formatters', () => {
+    const karhuTest = prepareTestKarhu({}, {
+      formatters: {
+        strawberry: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string) => {
+          return 'Howdy'
+        }
+      },
+      outputFormat: 'strawberry'
+    })
+
+    it('allows replacing the prefix', karhuTest((karhu, output) => {
+      karhu.context('test-context').info('Hello')
+      expect(output.tracked).toMatchSnapshot()
+    }))
+  })
 })

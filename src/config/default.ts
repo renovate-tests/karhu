@@ -1,5 +1,5 @@
 import {color as ansiColor, bgColor} from 'ansi-styles'
-import {KarhuConfig} from '../main/karhu'
+import {KarhuConfig, KarhuTransport} from '../main/karhu'
 import {karhuInspect} from '../main/util'
 import {inspect} from 'util'
 import defaultOutputImpl from '../main/default-output-impl'
@@ -23,10 +23,10 @@ const defaultConfig: KarhuConfig = {
   colors,
   outputFormat: process.env.KARHU_JSON ? 'json' : 'text',
   formatters: {
-    text: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string) =>
-      `[${config.formatNow(config)}] ${colorStart}${logLevel} ${context} ${toLog.map(val => karhuInspect(val)).join(' ')}${colorEnd}`,
-    json: (toLog: any[], logLevel: string, context: string, config: KarhuConfig) => {
-      const output = {timestamp: config.formatNow(config), context, logLevel, details: toLog}
+    text: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: KarhuTransport) =>
+      `[${(transport.formatNow || config.formatNow)(config)}] ${colorStart}${logLevel} ${context} ${toLog.map(val => karhuInspect(val)).join(' ')}${colorEnd}`,
+    json: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: KarhuTransport) => {
+      const output = {timestamp: (transport.formatNow || config.formatNow)(config), context, logLevel, details: toLog}
       try {
         return JSON.stringify(output)
       } catch (err) {

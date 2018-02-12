@@ -13,6 +13,7 @@ Array [
         "a": 1,
       },
     ],
+    0,
   ],
   Array [
     1,
@@ -25,6 +26,7 @@ Array [
         "a": 1,
       },
     ],
+    1,
   ],
   Array [
     Object {
@@ -39,6 +41,7 @@ Array [
         "a": 1,
       },
     ],
+    2,
   ],
 ]
 `;
@@ -68,6 +71,22 @@ Map {
   "ERROR" => Array [
     Array [
       "[1] [97m[101mERROR ctx 10000[49m[39m",
+      "ERROR",
+      "ctx",
+    ],
+  ],
+}
+`;
+
+exports[`output-mapper-test transport can provide its own mapper 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [],
+  "WARN" => Array [],
+  "ERROR" => Array [
+    Array [
+      "[1] [97m[101mERROR ctx 15[49m[39m",
       "ERROR",
       "ctx",
     ],
