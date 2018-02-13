@@ -155,7 +155,7 @@ based on output format, for example.
 
 #### contextSpecificLogLevels
 
-This map allows you to specify log levels for individual contexts to be different from the
+This map or object allows you to specify log levels for individual contexts to be different from the
 default.
 
 The context can be either the specific context as a string or a regular expression that will
@@ -166,6 +166,12 @@ overrides regular expressions.
         ["src/app", "ERROR"], // ignore everything less than an error
         [/special/, "DEBUG"]
     ])
+    
+    const contextSpecificLogLevels = {
+        "src/app": "ERROR"
+    }
+    
+Regular expressions are not supported when the object form is used.
     
 #### defaultLogLevel
 
@@ -189,23 +195,39 @@ along with other relevant information and it is expected to return whatever is t
 
 #### transports
 
-Transports is a map from transport name to the actual means of generating the output.
+Transports is an object hash from transport name to means of generating the output. A transport can override most
+of the settings from the top level config, inheriting everything not overridden.
 
+    const transports = {
+        console: consoleTransport     
+    }
+    
 The default implementation includes `console` transport, which calls `console.error` for 
 errors, `console.warn` for warning and `console.log` for everything else.
 
-    const consoleTransport = new Map([
-         ['ERROR', (toLog, logLevel, context, config) => console.error(...toLog)],
-         ['WARN', (toLog, logLevel, context, config) => console.warn(...toLog)], 
-         ['default', (toLog, logLevel, context, config) => console.log(...toLog)]
-     ])
+The sections below describe the transport options not available on top level config
 
-    const outputImpl = new Map([
-        ['console', consoleTransport']
-    ]) 
+##### supportsColor
+
+A boolean or function that is to return a boolean set to true if (ANSI) colors are supported by the transport.
+
+    const supportsColor = () => false
+
+##### outputImpl
+
+    const consoleTransport = {
+         ERROR: (toLog: any[]) => console.error(toLog),
+         WARN: (toLog: any[]) => console.warn(toLog), 
+         default: (toLog: any[]) => console.log(toLog)
+    ])
+
+    const outputImpl = {console: consoleTransport}
     
 The functions receive the things being logged as an array (after applying mapping of `outputMapper`),
 the log level and context for the event and the active configuration.
+
+You can specify a different methdod for each log level, and optionally a `default` which will be used
+whenever there is no function specified for the one being used. 
 
 ### Run-time configuration
 
