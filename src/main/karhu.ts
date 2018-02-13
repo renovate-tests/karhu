@@ -23,7 +23,7 @@ export interface KarhuReconfigurable {
 }
 
 export interface KarhuTransport extends Partial<KarhuReconfigurable> {
-  supportsColor: () => boolean
+  supportsColor: boolean | (() => boolean)
   outputImpl: KarhuTransportMap
 }
 
@@ -175,11 +175,11 @@ function asArray<T>(inVal: T | T[]): T[] {
   return [inVal]
 }
 
-function isColorEnabled(config: KarhuConfig, transport: KarhuTransport) {
+function isColorEnabled(config: KarhuConfig, transport: KarhuTransport): boolean {
   const override = process.env[config.envVariablePrefix + '_COLOR']
   if (override === '0' || override === 'false') return false
   if (override === '1' || override === 'true') return true
-  return transport.supportsColor
+  return typeof transport.supportsColor === 'function' ? transport.supportsColor() : transport.supportsColor
 }
 
 export const captureStandardOutput = (logger: KarhuLogger, stdoutLogLevel = 'INFO', stderrLogLevel = 'ERROR') => {
