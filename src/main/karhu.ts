@@ -7,7 +7,9 @@ type Context = string
 type LogLevel = string
 
 type KarhuTransportFn = (toLog: any, logLevel: string, context: string, config: KarhuConfig) => void
-type KarhuTransportMap = Map<string, KarhuTransportFn>
+interface KarhuTransportMap {
+  [logLevel: string]: KarhuTransportFn
+}
 
 export interface KarhuReconfigurable {
   colors: {
@@ -27,11 +29,15 @@ export interface KarhuTransport extends Partial<KarhuReconfigurable> {
   outputImpl: KarhuTransportMap
 }
 
+interface LogLevelMap {
+  [context: string]: LogLevel
+}
+
 export interface KarhuConfig extends KarhuReconfigurable {
   logLevels: string[]
-  contextSpecificLogLevels: Map<string | RegExp, LogLevel>
+  contextSpecificLogLevels: Map<string | RegExp, LogLevel> | LogLevelMap
   envVariablePrefix: string,
-  transports: Map<string, KarhuTransport>
+  transports: { [name: string]: KarhuTransport}
 }
 
 const noColor = {
@@ -111,7 +117,8 @@ export function usingConfig<LogImpl = KarhuLogger>(configSource: KarhuConfig | (
 function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, toLog: any[]) {
   const eventLogPrio = config.logLevels.indexOf(logLevel)
 
-  for (const [transportName, transport] of config.transports.entries()) {
+  for (const transportName of Object.keys(config.transports)) {
+    const transport = config.transports[transportName]
     const activeLogLevelPrio = config.logLevels.indexOf(getLogLevel(config, transport, activeContext))
 
     if (eventLogPrio < activeLogLevelPrio) continue
@@ -123,7 +130,7 @@ function logEvent(config: KarhuConfig, activeContext: string, logLevel: string, 
       closeColor = asArray(color).reverse().map(c => c.close).join(''),
       outputMapper = transport.outputMapper || config.outputMapper,
       mappedValues = toLog.map((value, i) => outputMapper(value, logLevel, activeContext, toLog, i)),
-      outputImpl = transport.outputImpl.get(logLevel) || transport.outputImpl.get('default')
+      outputImpl = transport.outputImpl[logLevel] || transport.outputImpl.default
 
     if (!outputImpl) throw new Error('Transport ' + transportName + ' does not support log level ' + logLevel + ' or default')
 
@@ -145,6 +152,9 @@ function getLogLevel(config: KarhuConfig, transport: KarhuTransport, activeConte
   return getOverrideLogLevel(config, activeContext) || getContextSpecificOverrideFromContext() || getOverrideLogLevel(config, null) || transport.defaultLogLevel || config.defaultLogLevel
 
   function getContextSpecificOverrideFromContext() {
+    if (!(config.contextSpecificLogLevels instanceof Map)) {
+      return config.contextSpecificLogLevels[activeContext]
+    }
     const perfectOverride = config.contextSpecificLogLevels.get(activeContext)
     if (perfectOverride) return perfectOverride
     for (const key of config.contextSpecificLogLevels.keys()) {
