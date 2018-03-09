@@ -1,3 +1,8 @@
+# 1.0.0
+
+- Bump major version to 1 as the package is entering production use
+- Jelpp config outputs JSON when stdout is not a tty
+
 # 0.4.0
 
 - Prefer object hashes over maps
