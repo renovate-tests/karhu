@@ -10,7 +10,8 @@ const jelppConfig: KarhuConfig = {
     NOTICE: ansiColor.blueBright
   },
   logLevels: updatedLogLevels(),
-  outputMapper: requestPromiseOutputMapper
+  outputMapper: requestPromiseOutputMapper,
+  outputFormat: process.env.KARHU_JSON || !process.stdout.isTTY ? 'json' : 'text',
 }
 
 export default jelppConfig
