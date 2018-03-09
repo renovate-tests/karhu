@@ -1,3 +1,7 @@
+# 1.0.1
+
+- Bugfix: Jelpp config assumed process always had stdout; not necessarily true on browser
+
 # 1.0.0
 
 - Bump major version to 1 as the package is entering production use
