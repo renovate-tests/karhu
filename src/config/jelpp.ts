@@ -11,7 +11,7 @@ const jelppConfig: KarhuConfig = {
   },
   logLevels: updatedLogLevels(),
   outputMapper: requestPromiseOutputMapper,
-  outputFormat: process.env.KARHU_JSON || !process.stdout.isTTY ? 'json' : 'text',
+  outputFormat: process.env.KARHU_JSON || (process.stdout && !process.stdout.isTTY) ? 'json' : 'text',
 }
 
 export default jelppConfig
