@@ -18,6 +18,14 @@ Let's start with a simple example
     // ...
     log.info('Server startup complete')
     log.error(new Error('Startup failed'))
+    
+### es5 compatibility
+
+If you need es5-compatible version of the modules, you can access karhu via `require('karhu/lib/karhu-es5)`
+and the default config via `require('karhu/config/default-e5')`. You might not have as much
+success as you'd like though, as the `ansi-styles` dependency relies on arrow functions at the very least.
+
+Still, if you stub that out then you can get karhu running in IE11. 
 
 ### API
 

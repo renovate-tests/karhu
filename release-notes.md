@@ -1,3 +1,7 @@
+# 1.1.0
+
+- Add es5 build and wrappers to allow for IE11 compatibility even if inconveniently
+
 # 1.0.1
 
 - Bugfix: Jelpp config assumed process always had stdout; not necessarily true on browser
