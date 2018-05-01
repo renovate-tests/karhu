@@ -1,6 +1,7 @@
 {
   "ignore": [
-    "build"
+    "build",
+    "es5"
   ],
   "ext": "js,ts",
   "ignoreRoot": []
