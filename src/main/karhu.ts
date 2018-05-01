@@ -4,10 +4,10 @@ import {logLevelsMatch} from './util'
 import {enableStandardOutputCapture, toggleForceCaptureDisabled} from './capturer'
 
 type Context = string
-type LogLevel = string
+export type LogLevel = string
 
-type KarhuTransportFn = (toLog: any, logLevel: string, context: string, config: KarhuConfig) => void
-interface KarhuTransportMap {
+export type KarhuTransportFn = (toLog: any, logLevel: string, context: string, config: KarhuConfig) => void
+export interface KarhuTransportMap {
   [logLevel: string]: KarhuTransportFn
 }
 
@@ -29,7 +29,7 @@ export interface KarhuTransport extends Partial<KarhuReconfigurable> {
   outputImpl: KarhuTransportMap
 }
 
-interface LogLevelMap {
+export interface LogLevelMap {
   [context: string]: LogLevel
 }
 
@@ -157,7 +157,7 @@ function getLogLevel(config: KarhuConfig, transport: KarhuTransport, activeConte
     }
     const perfectOverride = config.contextSpecificLogLevels.get(activeContext)
     if (perfectOverride) return perfectOverride
-    for (const key of config.contextSpecificLogLevels.keys()) {
+    for (const key of Array.from(config.contextSpecificLogLevels.keys())) {
       if (key instanceof RegExp && key.test(activeContext)) {
         return config.contextSpecificLogLevels.get(key)
       }

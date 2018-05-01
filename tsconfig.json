@@ -5,6 +5,7 @@
     "target": "es2017",
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "declaration": true,
     "lib": [
       "es2016",
       "es2017"

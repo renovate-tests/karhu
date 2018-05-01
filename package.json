@@ -63,5 +63,6 @@
   "author": {
     "name": "Tapani Haka"
   },
-  "main": "lib/karhu"
+  "main": "lib/karhu",
+  "types": "build/main/karhu.d.ts"
 }

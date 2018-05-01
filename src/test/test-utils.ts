@@ -1,7 +1,7 @@
 import {Karhu, KarhuConfig, KarhuLogger, KarhuTransport, usingConfig} from '../main/karhu'
 import defaultConfig from '../config/default'
 
-class TestOutputTracker {
+export class TestOutputTracker {
   public tracked: Map<string, any[][]> = new Map()
   public tracker: KarhuTransport = {
     supportsColor: () => true,
