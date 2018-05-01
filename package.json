@@ -14,7 +14,6 @@
     "gulp-clean": "^0.3.2",
     "gulp-spawn-mocha": "^2.2.1",
     "gulp-typescript": "^3.2.3",
-    "gulp-watch": "^4.3.5",
     "jest": "^22.1.4",
     "nodemon": "^1.12.5",
     "npm-release": "^1.0.0",
