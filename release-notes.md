@@ -1,3 +1,8 @@
+# 1.3.0
+
+- Jelpp config has improved logging for error objects
+- Jelpp config supports KARHU_NO_JSON environment variable to force text format
+
 # 1.1.0
 
 - Add es5 build and wrappers to allow for IE11 compatibility even if inconveniently

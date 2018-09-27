@@ -10,8 +10,8 @@ const jelppConfig: KarhuConfig = {
     NOTICE: ansiColor.blueBright
   },
   logLevels: updatedLogLevels(),
-  outputMapper: requestPromiseOutputMapper,
-  outputFormat: process.env.KARHU_JSON || (process.stdout && !process.stdout.isTTY) ? 'json' : 'text',
+  outputMapper,
+  outputFormat: (process.env.KARHU_JSON || (process.stdout && !process.stdout.isTTY)) && !process.env.KARHU_NO_JSON ? 'json' : 'text',
 }
 
 export default jelppConfig
@@ -20,6 +20,17 @@ function updatedLogLevels() {
   const ll = [...defaultConfig.logLevels]
   ll.splice(ll.indexOf('WARN'), 0, 'NOTICE')
   return ll
+}
+
+function outputMapper(val: any) {
+  return errorOutputMapper(requestPromiseOutputMapper(val))
+}
+
+function errorOutputMapper(val: any) {
+  if (val instanceof Error && val.stack) {
+    return `${val.message} ${val.stack}`
+  }
+  return val
 }
 
 function requestPromiseOutputMapper(val: any) {
