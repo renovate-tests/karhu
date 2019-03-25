@@ -1,13 +1,16 @@
 import defaultConfig from './default'
-import {color as ansiColor} from 'ansi-styles'
+// @ts-ignore
+import * as ansiStyles1 from 'ansi-styles'
+const ansiStyles = ansiStyles1 as AnsiStyles
 import {KarhuConfig} from '../main/karhu'
+import {AnsiStyles} from '../ansi-styles'
 
 const jelppConfig: KarhuConfig = {
   ...defaultConfig,
   defaultLogLevel: process.env.KARHU_LOG_LEVEL || process.env.NODE_LOG_LEVEL || 'INFO',
   colors: {
     ...defaultConfig.colors,
-    NOTICE: ansiColor.blueBright
+    NOTICE: ansiStyles.color.blueBright
   },
   logLevels: updatedLogLevels(),
   outputMapper,

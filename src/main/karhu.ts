@@ -1,5 +1,5 @@
 import defaultConfigImpl from '../config/default'
-import {Color} from 'ansi-styles'
+import {Color} from '../ansi-styles'
 import {logLevelsMatch} from './util'
 import {enableStandardOutputCapture, toggleForceCaptureDisabled} from './capturer'
 

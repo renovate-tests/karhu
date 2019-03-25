@@ -1,7 +1,10 @@
-import {color as ansiColor, bgColor} from 'ansi-styles'
+// @ts-ignore
+import * as ansiStyles1 from 'ansi-styles'
+const {color: ansiColor, bgColor} = ansiStyles1 as AnsiStyles
 import {prepareTestKarhu} from '../test-utils'
 import {KarhuLogger, LogFunction} from '../../main/karhu'
 import defaultConfig from '../../config/default'
+import {AnsiStyles} from '../../ansi-styles'
 
 interface PotatoLogger extends KarhuLogger {
   potato: LogFunction

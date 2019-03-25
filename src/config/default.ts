@@ -1,8 +1,11 @@
-import {color as ansiColor, bgColor} from 'ansi-styles'
+// @ts-ignore
+import * as ansiStyles1 from 'ansi-styles'
+const ansiStyles = ansiStyles1 as AnsiStyles
 import {KarhuConfig, KarhuTransport} from '../main/karhu'
 import {karhuInspect} from '../main/util'
 import {inspect} from 'util'
 import defaultOutputImpl from '../main/default-output-impl'
+import {AnsiStyles} from '../ansi-styles'
 
 export const logLevels = [
   'NONE', // Not to be used for messages, but allows setting log level to NONE,
@@ -13,9 +16,9 @@ export const logLevels = [
 ]
 
 const colors = {
-  DEBUG: ansiColor.magentaBright,
-  WARN: ansiColor.yellowBright,
-  ERROR: [ansiColor.whiteBright, bgColor.bgRedBright],
+  DEBUG: ansiStyles.color.magentaBright,
+  WARN: ansiStyles.color.yellowBright,
+  ERROR: [ansiStyles.color.whiteBright, ansiStyles.bgColor.bgRedBright],
 }
 
 const defaultConfig: KarhuConfig = {
