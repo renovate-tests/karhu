@@ -1,3 +1,8 @@
+# 1.4.0
+
+- Dependencies have been updated
+- Typescript applications using karhu are no longer expected to provide their own type information for ansi-styles
+
 # 1.3.0
 
 - Jelpp config has improved logging for error objects
