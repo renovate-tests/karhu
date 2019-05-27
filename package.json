@@ -27,6 +27,7 @@
     "gulp": "gulp",
     "tslint": "tslint --project tsconfig.json",
     "test": "jest",
+    "lint": "npm run tslint",
     "tslintfix": "npm run tslint -- --fix",
     "nmt": "nodemon -x npm -- test -- --bail",
     "prepare": "npm run gulp clean build",
