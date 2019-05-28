@@ -6,13 +6,13 @@ const gulp = require('gulp'),
   tsProject2017 = ts.createProject('tsconfig.json', {target: 'es2017'})
 
 function cleanBuild() {
-  return gulp.src('build', {read: false})
+  return gulp.src('build/*', {read: false})
     .pipe(gulpClean())
 }
 
 
 function cleanES5() {
-  return gulp.src('es5', {read: false})
+  return gulp.src('es5/*', {read: false})
     .pipe(gulpClean())
 }
 
