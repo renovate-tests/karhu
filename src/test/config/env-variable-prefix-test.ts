@@ -23,7 +23,7 @@ describe('env-variable-prefix-test', () => {
       karhu.context('ctx').warn('should show up')
       process.env.KUHA_LOG_LEVEL = 'ERROR'
       karhu.context('ctx').warn('should not show up')
-      process.env.KUHA_LOG_LEVEL = undefined
+      process.env.KUHA_LOG_LEVEL = ''
       expect(output.tracked).toMatchSnapshot()
     }))
 
