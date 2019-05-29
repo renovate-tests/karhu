@@ -1,3 +1,7 @@
+# 1.4.1
+
+- Dependencies have been updated
+
 # 1.4.0
 
 - Dependencies have been updated
