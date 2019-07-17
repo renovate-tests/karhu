@@ -9,7 +9,7 @@
     "@types/chai": "4.1.7",
     "@types/jest": "24.0.15",
     "@types/lodash": "4.14.136",
-    "@types/node": "8.10.50",
+    "@types/node": "8.10.51",
     "gulp": "4.0.2",
     "gulp-clean": "0.4.0",
     "gulp-spawn-mocha": "5.0.1",
