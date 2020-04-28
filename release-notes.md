@@ -1,3 +1,6 @@
+# 1.5.0 (beta)
+- Add support for correlation ids via getCorrelationId function of the config
+
 # 1.4.1
 
 - Dependencies have been updated
