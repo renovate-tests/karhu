@@ -38,6 +38,7 @@ export interface KarhuConfig extends KarhuReconfigurable {
   contextSpecificLogLevels: Map<string | RegExp, LogLevel> | LogLevelMap
   envVariablePrefix: string,
   transports: { [name: string]: KarhuTransport}
+  getCorrelationId?: () => string | undefined
 }
 
 const noColor = {
