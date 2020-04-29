@@ -27,13 +27,14 @@ const defaultConfig: KarhuConfig = {
   outputFormat: process.env.KARHU_JSON ? 'json' : 'text',
   formatters: {
     text: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: KarhuTransport) => {
-      const correlationId = config.getCorrelationId && config.getCorrelationId()
-      const correlationIdPart = correlationId ? ` [correlation-id=${correlationId}]` : ''
-      return `[${(transport.formatNow || config.formatNow)(config)}] ${colorStart}${logLevel} ${context} ${toLog.map(val => karhuInspect(val)).join(' ')}${correlationIdPart}${colorEnd}`
+      const contextualData = config.getContextualData && config.getContextualData()
+      const formattedContextualData = contextualData !== undefined ? ' ' + karhuInspect(contextualData) : ''
+      return `[${(transport.formatNow || config.formatNow)(config)}] ${colorStart}${logLevel} ${context} ${toLog.map(val => karhuInspect(val)).join(' ')}${formattedContextualData}${colorEnd}`
     },
     json: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: KarhuTransport) => {
-      const correlationId = config.getCorrelationId && config.getCorrelationId()
-      const output = {timestamp: (transport.formatNow || config.formatNow)(config), context, logLevel, details: toLog, correlationId}
+      const contextualData = config.getContextualData && config.getContextualData()
+      const contextualDataObj = typeof contextualData === 'object' ? contextualData : {contextualData}
+      const output = {timestamp: (transport.formatNow || config.formatNow)(config), context, logLevel, details: toLog, ...contextualDataObj}
       try {
         return JSON.stringify(output)
       } catch (err) {
