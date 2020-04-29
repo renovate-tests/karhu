@@ -1,6 +1,6 @@
 {
   "name": "karhu",
-  "version": "1.5.0-beta1",
+  "version": "1.5.0-beta2",
   "description": "A simple node.js logging with support for context specific log levels and stdout capturing",
   "dependencies": {
     "ansi-styles": "^3.2.0"
