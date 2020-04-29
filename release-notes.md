@@ -1,5 +1,5 @@
 # 1.5.0 (beta)
-- Add support for correlation ids via getCorrelationId function of the config
+- Add support for contextual data via getContextualData function of the config, meant to be used via async hooks
 
 # 1.4.1
 
