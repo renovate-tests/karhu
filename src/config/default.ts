@@ -32,7 +32,7 @@ const defaultConfig: KarhuConfig = {
       return `[${(transport.formatNow || config.formatNow)(config)}] ${colorStart}${logLevel} ${context} ${toLog.map(val => karhuInspect(val)).join(' ')}${formattedContextualData}${colorEnd}`
     },
     json: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: KarhuTransport) => {
-      const contextualData = config.getContextualData && config.getContextualData()
+      const contextualData = config.getContextualData?.()
       const contextualDataObj = typeof contextualData === 'object' ? contextualData : {contextualData}
       const output = {timestamp: (transport.formatNow || config.formatNow)(config), context, logLevel, details: toLog, ...contextualDataObj}
       try {
