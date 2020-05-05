@@ -2,7 +2,7 @@ import {inspect} from 'util'
 
 export function karhuInspect(obj: any) {
   if (typeof obj === 'string') return obj
-  if (obj && typeof obj.toKarhuString === 'function') return obj.toKarhuString()
+  if (typeof obj?.toKarhuString === 'function') return obj.toKarhuString()
   return inspect(obj)
 }
 
