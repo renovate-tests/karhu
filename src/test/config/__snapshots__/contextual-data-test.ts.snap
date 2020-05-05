@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`correlation-id-test contextual data object includes correlation id in json output, if available 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "{\\"timestamp\\":1,\\"context\\":\\"cid-test\\",\\"logLevel\\":\\"INFO\\",\\"details\\":[{\\"key\\":\\"test-value\\"}],\\"testValue\\":\\"alpha\\",\\"another\\":\\"beta\\"}",
+      "INFO",
+      "cid-test",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`correlation-id-test contextual data object includes correlation id in text output, if available 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "[1] INFO cid-test this is a simple test { testValue: 'myString', anotherTestValue: '123' }",
+      "INFO",
+      "cid-test",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`correlation-id-test contextual data string includes correlation id in json output, if available 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "{\\"timestamp\\":1,\\"context\\":\\"cid-test\\",\\"logLevel\\":\\"INFO\\",\\"details\\":[{\\"key\\":\\"test-value\\"}],\\"contextualData\\":\\"testId\\"}",
+      "INFO",
+      "cid-test",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;
+
+exports[`correlation-id-test contextual data string includes correlation id in text output, if available 1`] = `
+Map {
+  "NONE" => Array [],
+  "DEBUG" => Array [],
+  "INFO" => Array [
+    Array [
+      "[1] INFO cid-test this is a simple test testId",
+      "INFO",
+      "cid-test",
+    ],
+  ],
+  "WARN" => Array [],
+  "ERROR" => Array [],
+}
+`;

@@ -1,3 +1,7 @@
+# 1.5.0
+- Add support for contextual data via getContextualData function of the config. Can be used for fixed information
+  (for example process id), or for dynamic additions using for example async hooks.
+
 # 1.4.1
 
 - Dependencies have been updated
