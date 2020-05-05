@@ -27,7 +27,7 @@ const defaultConfig: KarhuConfig = {
   outputFormat: process.env.KARHU_JSON ? 'json' : 'text',
   formatters: {
     text: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: KarhuTransport) => {
-      const contextualData = config.getContextualData && config.getContextualData()
+      const contextualData = config.getContextualData?.()
       const formattedContextualData = contextualData !== undefined ? ' ' + karhuInspect(contextualData) : ''
       return `[${(transport.formatNow || config.formatNow)(config)}] ${colorStart}${logLevel} ${context} ${toLog.map(val => karhuInspect(val)).join(' ')}${formattedContextualData}${colorEnd}`
     },
