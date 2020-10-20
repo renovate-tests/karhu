@@ -169,6 +169,7 @@ function getLogLevel(config: KarhuConfig, transport: KarhuTransport, activeConte
 
 function getOverrideLogLevel(config: KarhuConfig, activeContext: Context | null) {
   const prefix = config.envVariablePrefix + '_LOG_LEVEL'
+  if (typeof process === 'undefined') return undefined
   return process.env[!activeContext ? prefix : prefix + '_' + toEnv(activeContext)]
 }
 
@@ -187,6 +188,7 @@ function asArray<T>(inVal: T | T[]): T[] {
 }
 
 function isColorEnabled(config: KarhuConfig, transport: KarhuTransport): boolean {
+  if (typeof process === 'undefined') return false
   const override = process.env[config.envVariablePrefix + '_COLOR']
   if (override === '0' || override === 'false') return false
   if (override === '1' || override === 'true') return true

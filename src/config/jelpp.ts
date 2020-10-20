@@ -7,14 +7,14 @@ import {AnsiStyles} from '../ansi-styles'
 
 const jelppConfig: KarhuConfig = {
   ...defaultConfig,
-  defaultLogLevel: process.env.KARHU_LOG_LEVEL || process.env.NODE_LOG_LEVEL || 'INFO',
+  defaultLogLevel: typeof process ==='undefined' ? 'INFO': process.env.KARHU_LOG_LEVEL || process.env.NODE_LOG_LEVEL || 'INFO',
   colors: {
     ...defaultConfig.colors,
     NOTICE: ansiStyles.color.blueBright
   },
   logLevels: updatedLogLevels(),
   outputMapper,
-  outputFormat: (process.env.KARHU_JSON || (process.stdout && !process.stdout.isTTY)) && !process.env.KARHU_NO_JSON ? 'json' : 'text',
+  outputFormat: typeof process ==='undefined' ? 'text': (process.env.KARHU_JSON || (process.stdout && !process.stdout.isTTY)) && !process.env.KARHU_NO_JSON ? 'json' : 'text',
 }
 
 export default jelppConfig

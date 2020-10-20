@@ -24,7 +24,7 @@ const colors = {
 const defaultConfig: KarhuConfig = {
   logLevels,
   colors,
-  outputFormat: process.env.KARHU_JSON ? 'json' : 'text',
+  outputFormat: typeof process !== 'undefined' && process.env.KARHU_JSON ? 'json' : 'text',
   formatters: {
     text: (toLog: any[], logLevel: string, context: string, config: KarhuConfig, colorStart: string, colorEnd: string, transport: KarhuTransport) => {
       const contextualData = config.getContextualData?.()
