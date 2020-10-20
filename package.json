@@ -64,5 +64,6 @@
     "name": "Tapani Haka"
   },
   "main": "lib/karhu",
+  "browser": "lib/karhu-es5",
   "types": "build/main/karhu.d.ts"
 }
